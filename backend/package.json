@@ -2,22 +2,25 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.ts",
-    "build":"tsc",
-    "dev": "nodemon src/server.ts"
+    "start": "node dist/server.ts",
+    "build": "tsc",
+    "dev": "nodemon dist/server.ts"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/mongoose": "^5.11.96",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "mongoose": "^8.17.1",
     "nodemon": "^3.1.10"
   },
   "devDependencies": {
+    "@types/node": "^24.3.0",
     "typescript": "^5.9.2"
   }
 }
