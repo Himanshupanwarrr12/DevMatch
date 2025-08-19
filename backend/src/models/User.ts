@@ -18,7 +18,7 @@ import {Schema,model,Document} from "mongoose"
     updatedAt : Date;
 }
 
-const UserSchema : Schema<User> = new Schema({
+const userSchema : Schema<User> = new Schema({
     firstName:{
         type:String,
         required:true,
@@ -61,15 +61,18 @@ const UserSchema : Schema<User> = new Schema({
       type: Number,
       min: 0,
       max: 100,
-      validator: Number.isInteger,
+      validate:{
+        validator: Number.isInteger,
+        message: '{value} is not an integer'
+      }
     },
     skills: {
-      type: String,
+      type: [String],
       required:false,
     },
     about: {
       type: String,
-      default: "default description hai",
+      default: "default description",
       required:false
     },
     photoUrl: {
@@ -77,5 +80,26 @@ const UserSchema : Schema<User> = new Schema({
       default:"https://i0.wp.com/fdlc.org/wp-content/uploads/2021/01/157-1578186_user-profile-default-image-png-clipart.png.jpeg?fit=880%2C769&ssl=1",
       required:false
     }  
-})
+},{timestamps:true})
 
+
+
+// adding getJwt method to userSchema
+userSchema.methods.getJwt =  function(this:User):string {
+  return jwt.sign(
+    {id:this._id},
+    "panwar", // this will come from proccess.env file
+    {expiresIn:"7d"}
+  )
+}
+
+//ading validatePassword to userSchema
+userSchema.methods.isValidPassword = async function (passByInputUser:string) :Promise<boolean> {
+  const user = this as User
+  const isMatch = await bcrypt.compare(passByInputUser,user.password)
+  return isMatch
+}
+
+
+
+export default model<User>('User',userSchema)
