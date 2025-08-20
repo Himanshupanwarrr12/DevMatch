@@ -7,11 +7,12 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "node16",
+    "module": "esnext",
     "target": "es2020",
-     "esModuleInterop": true,
-    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
     "types": ["node"],
+
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -35,12 +36,16 @@
     // "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "strict": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
-  }
+    "skipLibCheck": true
+  },
+   "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
