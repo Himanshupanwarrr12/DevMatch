@@ -3,7 +3,10 @@ const app = express()
 import cookieParser from "cookie-parser"
 const port = 7777
 import cors from 'cors'
-import dbConnection from './config/database.js'
+import dbConnection from "./config/database"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 app.use(express.json())
 app.use(cookieParser())
@@ -13,10 +16,13 @@ app.use(cors({
     credentials:true
 }))
 
+
+// api routes
+
+
 dbConnection()
 .then(() => {
-    console.log("Database connected")
-    app.listen(port,()=>{
+    app.listen(process.env.PORT, ()=>{
        console.log( `server is running at ${port}`)
     })
 }).catch((err:string) => {
