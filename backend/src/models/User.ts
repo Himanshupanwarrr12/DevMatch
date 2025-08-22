@@ -1,32 +1,35 @@
-import validator from 'validator'
-import jwt from 'jsonwebtoken'
-import bcrypt from "bcrypt"
+import validator from "validator";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
-import {Schema,model,Document} from "mongoose"
+import { Schema, model, Document } from "mongoose";
 
- export interface User extends Document{
-    firstName:string;
-    lastName : string;
-    emailId:string; 
-    password: string;
-    age:number;
-    gender:string;
-    skills:string[];
-    about:string;
-    photoUrl:string;
-    createdAt:Date;
-    updatedAt : Date;
+export interface User extends Document {
+  firstName: string;
+  lastName: string;
+  emailId: string;
+  password: string;
+  age: number;
+  gender: string;
+  skills: string[];
+  about: string;
+  photoUrl: string;
+  getJWT(): Promise<string>
+  isValidPassword(password:string):Promise<boolean>,
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const userSchema : Schema<User> = new Schema({
-    firstName:{
-        type:String,
-        required:true,
-        trim:true,
-        minLength:2,
-        maxlength:12,
+const userSchema: Schema<User> = new Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: 2,
+      maxlength: 12,
     },
-     lastName: {
+    lastName: {
       type: String,
       trim: true,
       minLength: 2,
@@ -38,7 +41,7 @@ const userSchema : Schema<User> = new Schema({
       unique: true,
       lowercase: true,
       trim: true,
-      validate: function isValidEmail(email:string) {
+      validate: function isValidEmail(email: string) {
         return validator.isEmail(email);
       },
     },
@@ -46,7 +49,7 @@ const userSchema : Schema<User> = new Schema({
       type: String,
       required: true,
       trim: true,
-      validate: function isStrongPassword(value:string) {
+      validate: function isStrongPassword(value: string) {
         return validator.isStrongPassword(value);
       },
     },
@@ -61,45 +64,47 @@ const userSchema : Schema<User> = new Schema({
       type: Number,
       min: 0,
       max: 100,
-      validate:{
+      validate: {
         validator: Number.isInteger,
-        message: '{value} is not an integer'
-      }
+        message: "{value} is not an integer",
+      },
     },
     skills: {
       type: [String],
-      required:false,
+      required: false,
     },
     about: {
       type: String,
       default: "default description",
-      required:false
+      required: false,
     },
     photoUrl: {
       type: String,
-      default:"https://i0.wp.com/fdlc.org/wp-content/uploads/2021/01/157-1578186_user-profile-default-image-png-clipart.png.jpeg?fit=880%2C769&ssl=1",
-      required:false
-    }  
-},{timestamps:true})
-
-
+      default:
+        "https://i0.wp.com/fdlc.org/wp-content/uploads/2021/01/157-1578186_user-profile-default-image-png-clipart.png.jpeg?fit=880%2C769&ssl=1",
+      required: false,
+    },
+  },
+  { timestamps: true }
+);
 
 // adding getJwt method to userSchema
-userSchema.methods.getJwt =  function(this:User):string {
-  return jwt.sign(
-    {id:this._id},
-    "panwar", // this will come from proccess.env file
-    {expiresIn:"7d"}
-  )
-}
+userSchema.methods.getJWT = async function (this: User): Promise<string> {
+  const user = this
+  const secretKey = process.env.JWT_SECRET 
+  if(!secretKey){
+    throw new Error("JWT_SECRET is required")
+  }
+  const token = jwt.sign({id:user.id}, secretKey, {expiresIn: "7d" })
+  return token;
+};
 
-//ading validatePassword to userSchema
-userSchema.methods.isValidPassword = async function (passByInputUser:string) :Promise<boolean> {
-  const user = this as User
-  const isMatch = await bcrypt.compare(passByInputUser,user.password)
-  return isMatch
-}
+//adding validatePassword to userSchema
+userSchema.methods.isValidPassword = async function (this:User,
+  passByInputUser: string
+): Promise<boolean> {
+  const user = this
+  return await bcrypt.compare(passByInputUser, user.password);
+};
 
-
-
-export default model<User>('User',userSchema)
+export default model<User>("User", userSchema);
