@@ -6,6 +6,7 @@ import cors from 'cors'
 import dbConnection from "./config/database"
 import dotenv from "dotenv"
 
+
 dotenv.config()
 
 app.use(express.json())
@@ -18,7 +19,10 @@ app.use(cors({
 
 
 // api routes
+import authRouter from './routes/auth'
 
+
+app.use("/",authRouter)
 
 dbConnection()
 .then(() => {
