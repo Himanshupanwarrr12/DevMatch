@@ -1,6 +1,7 @@
 import validator from 'validator'
+import type { Request } from 'express'
 
-export default function validateSignUpData(req:any){
+export  function validateSignUpData(req:Request){
     const {firstName,emailId,password} = req.body
     console.log("req.body : ",req.body)
     if(!firstName || typeof firstName !== 'string' || firstName.trim().length === 0){
@@ -14,3 +15,5 @@ export default function validateSignUpData(req:any){
     }
 
 }
+
+export  function validateProfileEditData(req:Request){}
