@@ -1,6 +1,6 @@
 import express from "express";
 const authRouter = express.Router();
-import validateSignUpData from "../utils/validation";
+import {validateSignUpData} from "../utils/validation";
 import bcrypt from "bcrypt";
 import User from "../models/User";
 
