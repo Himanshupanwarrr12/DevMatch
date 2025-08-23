@@ -20,9 +20,13 @@ app.use(cors({
 
 // api routes
 import authRouter from './routes/auth'
+import userRouter from './routes/user'
+import profileRouter from "./routes/profile"
 
 
 app.use("/",authRouter)
+app.use("/",userRouter)
+app.use("/",profileRouter)
 
 dbConnection()
 .then(() => {
