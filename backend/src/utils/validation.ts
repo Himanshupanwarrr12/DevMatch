@@ -16,4 +16,10 @@ export  function validateSignUpData(req:Request){
 
 }
 
-export  function validateProfileEditData(req:Request){}
+export  function validateProfileEditData(req:Request){
+    const editFieldsAllowed = ["firstName","lastName","emailId","photoUrl","about","skills"]
+    const isEditAllowed = Object.keys(req.body).every((field)=>{
+      return  editFieldsAllowed.includes(field)
+    })
+    return isEditAllowed
+}
