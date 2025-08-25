@@ -44,6 +44,8 @@ profileRouter.patch(
           (loggedInUser as any)[key] = req.body[key];
         }
       });
+      await loggedInUser.save();
+      res.status(200).send("Edited sucessfully");
     } catch (error) {
       res.status(400).send("Error : " + error);
     }
