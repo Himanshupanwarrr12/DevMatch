@@ -11,11 +11,13 @@ export interface UserConnection extends Document {
 const UserConnectionScehma  : Schema<UserConnection> = new Schema({
     fromUserId:{
         type:mongoose.Schema.ObjectId,
-        required:true
+        required:true,
+        ref:"User"
     },
     toUserId:{
         type:mongoose.Schema.ObjectId,
-        required:true
+        required:true,
+        ref:"User"
     },
     status:{
         type:String,
