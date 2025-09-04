@@ -27,7 +27,7 @@ try {
     //3rd i will verify the user 
     const decodedData = Jwt.verify(token,secret) as customJwtPayload
 
-    console.log(decodedData)
+    // console.log(decodedData)
     
     // now i will take id from the decodedData
     const {_id} = decodedData;
