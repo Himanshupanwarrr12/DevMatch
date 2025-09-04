@@ -3,7 +3,7 @@ import type { Request } from 'express'
 
 export  function validateSignUpData(req:Request){
     const {firstName,emailId,password} = req.body
-    console.log("req.body : ",req.body)
+    // console.log("req.body : ",req.body)
     if(!firstName || typeof firstName !== 'string' || firstName.trim().length === 0){
         throw new Error("First Name is required and must be a  non-empty string.")
     }
