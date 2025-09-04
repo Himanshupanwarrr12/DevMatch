@@ -36,8 +36,9 @@ try {
 userRouter.get("/user/connections", userAuth, async (req:AuthenticatedRequest,res:Response)=>{
     try {
         const loggedInUser = req.user
+        console.log("LoggedInUser : ",loggedInUser)
 
-        const connections = await UserConnection.find({
+        const connectionRequests = await UserConnection.find({
             $or:[
                 {fromUserId: loggedInUser?._id,status:"accepted"},
                 {toUserId: loggedInUser?._id,status:"accepted"}
@@ -45,13 +46,15 @@ userRouter.get("/user/connections", userAuth, async (req:AuthenticatedRequest,re
         }).populate("fromUserId",USER_SAFE_DATA)
           .populate("toUserId",USER_SAFE_DATA)
         
-          const data = connections.map((row) =>{
-            if(row.fromUserId._id.toString() === loggedInUser?._id.toString()){
-                return row.toUserId
+          const connections = connectionRequests.map((connectionRequest) =>{
+            const fromUserId = connectionRequest.fromUserId
+            const toUserId = connectionRequest.toUserId
+            if(fromUserId.toString() === loggedInUser?._id.toString()){
+                return toUserId
             }
-            return row.fromUserId
+            return fromUserId
           })
-        res.json({data})
+        res.json({connections})
     } catch (error) {
         res.status(400).json({ 
         message: "Error fetching connections",
