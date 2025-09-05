@@ -11,7 +11,7 @@ try {
     // first i will take token from the user
     const token =  req.cookies?.token;
     if(!token){ 
-        res.status(400).send("Please login")
+       return res.status(400).send("Please login")
     }
     // 2nd i will take the secret key from the .env file
     const secret = process.env.JWT_SECRET
@@ -33,14 +33,14 @@ try {
     const {_id} = decodedData;
 
     // now i will find the user with id and send it to the user
-    const user = User.findOne({id:_id})
+    const user = await User.findOne({id:_id})
     if(!user){
-        throw new Error("user not found")
+       return res.status(400).send("User not found");
     }
     req.user= user
     next()
 } catch (error:unknown) {
-    res.status(400).send("Error"+error)
+   return res.status(400).send("Error"+error)
 }
 }
 
