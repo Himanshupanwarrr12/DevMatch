@@ -2,11 +2,11 @@ import express from 'express'
 import userAuth from '../middleware/auth'
 const userRouter =  express.Router()
 import type { Request,Response } from 'express'
-import type { User } from '../models/User'
+import type { IUser } from '../models/User'
 import UserConnection from '../models/UserConnection'
 
 interface AuthenticatedRequest extends Request{
-user? : User
+user? : IUser
 }
 
 const USER_SAFE_DATA= "firstName lastName age about  gender skills "
