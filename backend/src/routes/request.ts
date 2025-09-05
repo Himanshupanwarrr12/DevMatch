@@ -5,7 +5,6 @@ import type { Request, Response } from "express";
 import User, { type IUser } from "../models/User";
 import UserconnectionModel from "../models/UserConnection";
 
-// 1. get all required things 2. only allowed request will send(interested,ignored) 3.check the toUser is valid or not 4.declare new connection by connectionSchema 5 .check user not to send request himself 6. check if user already send request then he can't send again or check if the toUser didn't have pending req to fromUser 6.now finally you can save the connection req .
 
 interface sendConnectionRequest extends Request {
   user?: IUser;
@@ -69,11 +68,11 @@ requestRouter.post(
 );
 
 requestRouter.post(
-  "request/review/:status/:id",
+  "request/review/:status/:requestId",
   userAuth,
   (req: sendConnectionRequest, res: Response) => {
 
-    
+     //1.take loggedInuser and main ingredeints through url 2.declare allowed status and validate the status 3.
     
   }
 );
