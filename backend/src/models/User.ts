@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 import { Schema, model, Document } from "mongoose";
 
-export interface User extends Document {
+export interface IUser extends Document {
   firstName: string;
   lastName: string;
   emailId: string;
@@ -20,14 +20,14 @@ export interface User extends Document {
   updatedAt: Date;
 }
 
-const userSchema: Schema<User> = new Schema(
+const userSchema: Schema<IUser> = new Schema(
   {
     firstName: {
       type: String,
       required: true,
       trim: true,
       minLength: 2,
-      maxlength: 12,
+      maxLength: 12,
     },
     lastName: {
       type: String,
@@ -89,7 +89,7 @@ const userSchema: Schema<User> = new Schema(
 );
 
 // adding getJwt method to userSchema
-userSchema.methods.getJWT = async function (this: User): Promise<string> {
+userSchema.methods.getJWT = async function (this: IUser): Promise<string> {
   const user = this
   const secretKey = process.env.JWT_SECRET 
   if(!secretKey){
@@ -100,11 +100,11 @@ userSchema.methods.getJWT = async function (this: User): Promise<string> {
 };
 
 //adding validatePassword to userSchema
-userSchema.methods.isValidPassword = async function (this:User,
+userSchema.methods.isValidPassword = async function (this:IUser,
   passByInputUser: string
 ): Promise<boolean> {
   const user = this
   return await bcrypt.compare(passByInputUser, user.password);
 };
 
-export default model<User>("User", userSchema);
+export default model<IUser>("User", userSchema);
