@@ -2,11 +2,11 @@ import express from "express";
 const profileRouter = express.Router();
 import userAuth from "../middleware/auth";
 import type { Request, Response } from "express";
-import type { User } from "../models/User";
+import type { IUser } from "../models/User";
 import { validateProfileEditData } from "../utils/validation";
 
 interface profileViewRequest extends Request {
-  user?: User;
+  user?: IUser;
 }
 
 profileRouter.get(
