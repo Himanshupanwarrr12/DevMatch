@@ -4,7 +4,7 @@ export interface UserConnection extends Document {
   fromUserId: mongoose.Schema.Types.ObjectId;
   toUserId: mongoose.Schema.Types.ObjectId;
   status: string;
-  ConnectionDate: Date;
+  connectionDate: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,7 +29,7 @@ const UserConnectionSchema: Schema<UserConnection> = new Schema(
         message: `{VALUE} is incorrect status type`,
       },
     },
-    ConnectionDate: {
+    connectionDate: {
       type: Date,
       default: null,
     },
