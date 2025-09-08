@@ -13,6 +13,8 @@ requestRouter.post(
   "/request/send/:status/:id",
   userAuth,
   async (req: sendConnectionRequest, res: Response) => {
+    console.log("Req User",req.user)
+    console.log("Req body",req.body)
     try {
       // taking main ingredients
       const fromUserId = req.user!.id;
