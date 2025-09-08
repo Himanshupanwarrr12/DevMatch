@@ -63,8 +63,19 @@ userRouter.get("/user/connections", userAuth, async (req:AuthenticatedRequest,re
     }
 })
 
-userRouter.get("user/feed", async (req,res)=>{
+userRouter.get("user/feed", userAuth, async (req: AuthenticatedRequest,res:Response)=>{
     try {
+
+        const loggedInUser = req.user
+        const page = parseInt(String(req.query.page)) || 1
+        const limit = parseInt(String(req.query.limit)) ||10
+        const skip = (page-1)*limit
+        
+        // fetch the connections that I don't want in user feed
+        const pendingConnectionsReq = await UserConnection.find({
+            $or : [{fromUserId : loggedInUser!._id},{toUserId : loggedInUser!._id}]
+        }).populate("fromUserId  toUserId")
+
         
         
     } catch (error:unknown) {
