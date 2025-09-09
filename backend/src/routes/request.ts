@@ -75,7 +75,11 @@ requestRouter.post(
   async (req: sendConnectionRequest, res: Response) => {
     //take loggedInUser detail
     const loggedInuser = req.user;
+    console.log("LoggedIn user : ", loggedInuser)
     const { status, connectionId } = req.params;
+
+    console.log("status : ",status)
+    console.log("connectionId : ",connectionId)
 
     //check status must be valid
     const allowedStatus = ["accepted", "rejected"];
@@ -89,6 +93,8 @@ requestRouter.post(
       toUserId: loggedInuser!._id,
       status: "interested",
     });
+
+    console.log("connection request : ",connectionRequest)
 
     // if connection not found
     if (!connectionRequest) {
