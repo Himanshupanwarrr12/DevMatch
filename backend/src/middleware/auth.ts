@@ -27,17 +27,18 @@ try {
     //3rd i will verify the user 
     const decodedData = Jwt.verify(token,secret) as customJwtPayload
 
-    // console.log(decodedData)
+    // console.log("decodedData : ",decodedData)
     
     // now i will take id from the decodedData
-    const {_id} = decodedData;
+    const {id} = decodedData;
 
     // now i will find the user with id and send it to the user
-    const user = await User.findOne({id:_id})
+    const user = await User.findOne({_id:id})
     if(!user){
        return res.status(400).send("User not found");
     }
     req.user= user
+    console.log("req.user in auth : ",req.user)
     next()
 } catch (error:unknown) {
    return res.status(400).send("Error"+error)
