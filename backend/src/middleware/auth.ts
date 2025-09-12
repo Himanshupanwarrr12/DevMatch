@@ -38,7 +38,6 @@ try {
        return res.status(400).send("User not found");
     }
     req.user= user
-    console.log("req.user in auth : ",req.user)
     next()
 } catch (error:unknown) {
    return res.status(400).send("Error"+error)
