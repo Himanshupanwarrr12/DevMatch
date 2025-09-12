@@ -2,9 +2,10 @@ import validator from "validator";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, type ObjectId } from "mongoose";
 
 export interface IUser extends Document {
+  _id: ObjectId;
   firstName: string;
   lastName: string;
   emailId: string;
