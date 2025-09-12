@@ -42,27 +42,27 @@ userRouter.get(
   userAuth,
   async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const loggedInUser = req.user;
-      console.log("LoggedInUser : ", loggedInUser);
+      const loggedInUser = req.user as IUser;
 
       const connectionRequests = await UserConnection.find({
         $or: [
-          { fromUserId: loggedInUser?._id, status: "accepted" },
-          { toUserId: loggedInUser?._id, status: "accepted" },
+          { fromUserId: loggedInUser._id, status: "accepted" },
+          { toUserId: loggedInUser._id, status: "accepted" },
         ],
       })
         .populate("fromUserId", USER_SAFE_DATA)
         .populate("toUserId", USER_SAFE_DATA);
 
       const connections = connectionRequests.map((connectionRequest) => {
-        const fromUserId = connectionRequest.fromUserId;
-        const toUserId = connectionRequest.toUserId;
-        if (fromUserId.toString() === loggedInUser!._id.toString()) {
+        const fromUserId = connectionRequest.fromUserId as unknown as IUser;
+        const toUserId = connectionRequest.toUserId as unknown as IUser;
+
+        if (fromUserId._id.toString() === loggedInUser._id.toString()) {
           return toUserId;
         }
         return fromUserId;
       });
-      res.json({ connections });
+      res.json({ success: true, connections, count: connections.length });
     } catch (error) {
       res.status(400).json({
         message: "Error fetching connections",
@@ -73,7 +73,7 @@ userRouter.get(
 );
 
 userRouter.get(
-  "user/feed",
+  "/user/feed",
   userAuth,
   async (req: AuthenticatedRequest, res: Response) => {
     try {
@@ -82,37 +82,46 @@ userRouter.get(
       const limit = parseInt(String(req.query.limit)) || 10;
       const skip = (page - 1) * limit;
 
-      // fetch the connections that I don't want in user feed
-      const pendingConnectionsReq = await UserConnection.find({
+      //fetch all connections (intersted,rejected,accepted)
+      const allConnections = await UserConnection.find({
         $or: [
           { fromUserId: loggedInUser!._id },
           { toUserId: loggedInUser!._id },
         ],
-      }).populate("fromUserId  toUserId");
+      }).select("fromUserId  toUserId");
 
-      // stored all that pending users in a variable
-      const hideUserFromFeed = new Set();
-      pendingConnectionsReq.forEach((user) => {
-        hideUserFromFeed.add(user.fromUserId.toString()),
-          hideUserFromFeed.add(user.toUserId.toString());
+      // stored all that ids that will hide
+      const hideUserIds = new Set();
+      allConnections.forEach((connection) => {
+        hideUserIds.add(connection.fromUserId.toString()),
+          hideUserIds.add(connection.toUserId.toString());
       });
+      console.log("hideUserIds : ", hideUserIds);
 
       // fetch the feed except the pended ones
       const users = await User.find({
         $and: [
-          {
-            _id: { $nin: Array.from(hideUserFromFeed) },
-          },
-          {
-            _id: { $ne: loggedInUser!._id },
-          },
+          { _id: { $nin: Array.from(hideUserIds) } },
+          { _id: { $ne: loggedInUser!._id } },
         ],
-      }).skip(skip).limit(limit);
+      }).select(USER_SAFE_DATA)
+        .skip(skip)
+        .limit(limit);
 
-      res.status(200).send(users)
-      
+        // console.log("Users : ", users)
+      res.status(200).json({
+        success:true,
+        users,
+        totalUsers: users.length,
+        page
+      })
     } catch (error: unknown) {
-      res.status(400).send("Error : " + error);
+     console.error("Feed fetch error:", error);
+      res.status(400).json({ 
+        success: false,
+        message: "Error fetching feed",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   }
 );
