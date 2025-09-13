@@ -2,11 +2,16 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import MainLayout from "./MainLayout"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
+import Feed from "./pages/Feed"
 
 const Router = createBrowserRouter([{
   path:'/',
   element:<MainLayout/>,
   children:[
+    {
+      path:'/feed',
+      element:<Feed/>
+    },
     {
       path:'/login',
       element:<Login/>
