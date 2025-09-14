@@ -5,9 +5,9 @@ import Navbar from "./ui/header/Navbar"
 
 const MainLayout = () => {
   return (
-    <div>
+    <div >
         <Navbar/>
-        <main>
+        <main >
             <Outlet/>
         </main>
         <Footer/>
