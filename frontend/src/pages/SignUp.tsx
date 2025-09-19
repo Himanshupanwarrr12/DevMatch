@@ -1,5 +1,6 @@
-import axios from "axios";
+import { baseUrl } from "@/utils/constant";
 import { useState } from "react";
+import axios , {AxiosError}  from "axios";
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
@@ -7,16 +8,41 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
-  const [error,setError] = useState('')
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e)=>{
-    e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
     try {
-      const res = await axios.post()
-    } catch (error) {
-      setError("SignUp failed")
+      const res = await axios.post(
+        baseUrl + "/signUp",
+        {
+          firstName,
+          lastName, 
+          email,
+          password,
+          gender,
+        },
+        { withCredentials: true }
+      );
+      console.log("res : ", res);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as AxiosError;
+
+        if (axiosError.response) {
+          setError(`Server error: ${axiosError.response.status}`);
+          console.log("Server Error:", axiosError.response.data);
+        } else {
+          setError("Network error");
+          console.log("Network Error:", axiosError.message);
+        }
+      } else {
+        setError("SignUp failed");
+        console.log("Unknown Error:", error);
+      }
     }
-  }
+  };
 
   return (
     <div className="h-screen w-full flex justify-center items-center mb-6 bg-stone-300">
