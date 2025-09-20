@@ -1,6 +1,8 @@
 import { baseUrl } from "@/utils/constant";
 import { useState } from "react";
-import axios , {AxiosError}  from "axios";
+import axios   from "axios";
+import type { AxiosError } from "axios";
+
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
@@ -13,22 +15,26 @@ const SignUp = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+       const requestData = {
+        firstName,
+        lastName, 
+        email,
+        password,
+        gender,
+    };
+    console.log("Request Data:", requestData)
     try {
       const res = await axios.post(
         baseUrl + "/signUp",
-        {
-          firstName,
-          lastName, 
-          email,
-          password,
-          gender,
-        },
+        requestData,
         { withCredentials: true }
       );
       console.log("res : ", res);
     } catch (error: unknown) {
+      console.log("Error caught : ",error)
       if (error && typeof error === "object" && "response" in error) {
         const axiosError = error as AxiosError;
+        console.log("object: ",error.response)
 
         if (axiosError.response) {
           setError(`Server error: ${axiosError.response.status}`);
