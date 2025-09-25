@@ -4,6 +4,12 @@ import bcrypt from "bcrypt";
 
 import { Schema, model, Document, type ObjectId } from "mongoose";
 
+export interface Ilinks {
+  github?: string;
+  linkedin?: string;
+  portfolio?: string;
+}
+
 export interface IUser extends Document {
   _id: ObjectId;
   firstName: string;
@@ -15,8 +21,10 @@ export interface IUser extends Document {
   skills: string[];
   about: string;
   photoUrl: string;
-  getJWT(): Promise<string>
-  isValidPassword(password:string):Promise<boolean>,
+  futureInterest: string[];
+  links: Ilinks;
+  getJWT(): Promise<string>;
+  isValidPassword(password: string): Promise<boolean>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -85,26 +93,37 @@ const userSchema: Schema<IUser> = new Schema(
         "https://i0.wp.com/fdlc.org/wp-content/uploads/2021/01/157-1578186_user-profile-default-image-png-clipart.png.jpeg?fit=880%2C769&ssl=1",
       required: false,
     },
+    futureInterest: {
+      type: [String],
+      required: false,
+      default: [],
+    },
+    links: {
+      github: { type: String, default: "" },
+      linkedin: { type: String, default: "" },
+      portfolio: { type: String, default: "" },
+    },
   },
   { timestamps: true }
 );
 
 // adding getJwt method to userSchema
 userSchema.methods.getJWT = async function (this: IUser): Promise<string> {
-  const user = this
-  const secretKey = process.env.JWT_SECRET 
-  if(!secretKey){
-    throw new Error("JWT_SECRET is required")
+  const user = this;
+  const secretKey = process.env.JWT_SECRET;
+  if (!secretKey) {
+    throw new Error("JWT_SECRET is required");
   }
-  const token = jwt.sign({id:user.id}, secretKey, {expiresIn: "7d" })
+  const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: "7d" });
   return token;
 };
 
 //adding validatePassword to userSchema
-userSchema.methods.isValidPassword = async function (this:IUser,
+userSchema.methods.isValidPassword = async function (
+  this: IUser,
   passByInputUser: string
 ): Promise<boolean> {
-  const user = this
+  const user = this;
   return await bcrypt.compare(passByInputUser, user.password);
 };
 
