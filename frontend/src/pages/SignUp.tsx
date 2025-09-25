@@ -144,10 +144,10 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
+      <div className="bg-white p-8 border-black border-1 rounded-2xl shadow-xl max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Sign Up</h1>
-          <p className="text-gray-600">Create Your Developer Profile!</p>
+          <p className="text-rose-600">Create Your Developer Profile!</p>
         </div>
         {error && <div className="error">{error}</div>}{" "}
         {error && (
@@ -170,7 +170,7 @@ const SignUp = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="Enter your first name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 required
               />
             </div>
@@ -188,7 +188,7 @@ const SignUp = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Enter your last name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 required
               />
             </div>
@@ -207,7 +207,7 @@ const SignUp = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               required
             />
           </div>
@@ -225,7 +225,7 @@ const SignUp = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="********"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               required
               minLength={6}
             />
@@ -271,7 +271,7 @@ const SignUp = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-stone-500 hover:bg-stone-600 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-full bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
