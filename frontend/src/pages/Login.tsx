@@ -67,7 +67,7 @@ const Login = () => {
                 type="email"
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-black rounded-lg focus:ring-2 focus:ring-rose1-500 focus:border-rose-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-rose1-500 focus:border-rose-500 transition-colors"
               />
             </div>
             <div>
@@ -76,7 +76,7 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-black rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors"
               />
             </div>
           </div>
