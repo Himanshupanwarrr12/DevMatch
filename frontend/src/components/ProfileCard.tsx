@@ -1,9 +1,10 @@
+import user
 
 export const ProfileCard = () => {
   return (
     <div>
         <div>
-            <img src="" alt="user img" />
+            <img src={} alt="user img" />
         </div>
         <div>
             <h3>name</h3>
