@@ -9,7 +9,7 @@ const Router = createBrowserRouter([{
   element:<MainLayout/>,
   children:[
     {
-      path:'/feed',
+      path:'/',
       element:<Feed/>
     },
     {
