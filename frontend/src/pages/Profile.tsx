@@ -1,8 +1,12 @@
+import type { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  return (
-    <div>cooking...</div>
-  )
-}
+  const user = useSelector((store: RootState) => {
+    return store.user;
+  });
 
-export default Profile
+  return <div>cooking...</div>;
+};
+
+export default Profile;
