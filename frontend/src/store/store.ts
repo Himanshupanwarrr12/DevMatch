@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from '../features/user/userSlice'
+import userReducer from "../features/user/userSlice";
 
 const store = configureStore({
   reducer: {
-    user:userReducer
+    user: userReducer,
   },
 });
 
-export type RootState =  ReturnType<typeof store.getState>
-export type Dispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type Dispatch = typeof store.dispatch;
 
-export default store;   
+export default store;
