@@ -1,8 +1,8 @@
-import { ProfileCard } from "@/components/ProfileCard"
+import UserCard from "@/components/UserCard"
 
 const Feed = () => {
   return (
-    <div className="text-6xl text-center text-pink-700"><ProfileCard/></div>
+    <div><UserCard/></div>
   )
 }
 
