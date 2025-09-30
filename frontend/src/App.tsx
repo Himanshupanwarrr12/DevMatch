@@ -3,6 +3,8 @@ import MainLayout from "./MainLayout"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Feed from "./pages/Feed"
+import Profile from "./pages/Profile"
+import Connections from "./pages/Connections"
 
 const Router = createBrowserRouter([{
   path:'/',
@@ -19,6 +21,14 @@ const Router = createBrowserRouter([{
     {
       path:'signUp',
       element:<SignUp/>
+    },
+    {
+      path:'profile',
+      element:<Profile/>
+    },
+    {
+      path:'connections',
+      element:<Connections/>
     },
   ]
 }])
