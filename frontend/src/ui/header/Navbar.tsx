@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -10,8 +10,21 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {};
+   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  //closing dropdown when clicking outside
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+
 
   return (
     <div className="h-[60px] bg-pink-600 w-full mb-2 p-2 flex shadow-2xl justify-between items-center">
@@ -22,7 +35,7 @@ const Navbar = () => {
       <div className="flex items-center gap-4 text-xl">
         <h3>{user?.firstName}</h3>
 
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
           <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
             <img
               className="h-8 w-8 rounded-full"
