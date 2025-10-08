@@ -5,8 +5,8 @@ const UserCard = () => {
         <div className=" flex justify-center ">
           <img
             alt=" img"
-            src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
-            className=" border-4 object-cover p-2 m-2 rounded-full h-40 w-40  border-gray-300"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSl33J9NvfJSIkFGGrRvRZBmp_LSo-ru3BNhrQ4adehIoTkH4Qs55eSCsMClx2mnfyK9h1"
+            className=" border-4 object-cover p-2 m-2 rounded-full h-52 w-52  border-rose-400"
           />
         </div>
 
