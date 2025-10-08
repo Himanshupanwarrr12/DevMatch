@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {};
-   const dropdownRef = useRef<HTMLDivElement>(null);
+   const dropdownRef = useRef<HTMLDivElement>(null); 
 
   // Close dropdown when clicking outside
   useEffect(() => {
