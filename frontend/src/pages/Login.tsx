@@ -1,10 +1,8 @@
-import { baseUrl } from "@/utils/constant";
-import axios from "axios";
 import { useState } from "react";
-import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "@/features/user/userSlice";
+import axiosInstance from "@/utils/axios.config";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("speed12@gmail.com");
@@ -16,38 +14,18 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-      e.preventDefault();
-      setError("");
-      const res = await axios.post(
-        baseUrl + "/login",
-        {
-          emailId,
-          password,
-        },
-        { withCredentials: true }
-      );
-      console.log("res : ", res);
-      dispatch(addUser(res.data));
-      navigate("/");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        console.log("Error caught : ", error);
-        if (error && typeof error === "object" && "response" in error) {
-          const axiosError = error as AxiosError;
-          console.log("object: ", error.response);
+      e.preventDefault()
+      setError("")
+      const userData = await axiosInstance.post("/login",{emailId,password})
+      console.log("UserData : ",userData)
+      console.log("UserData.data : ",userData.data)
 
-          if (axiosError.response) {
-            setError(`Server error: ${axiosError.response.status}`);
-            console.log("Server Error:", axiosError.response.data);
-          } else {
-            setError("Network error");
-            console.log("Network Error:", axiosError.message);
-          }
-        }
-      } else {
-        setError("Login failed");
-        console.log("Unknown Error:", error);
-      }
+      dispatch(addUser(userData.data))
+      navigate("/")
+    } catch (error:any) {
+      const message = error.response?.data?.message || "Login failed";
+      setError(message);
+      console.log("Login error:", error);
     }
   };
 
