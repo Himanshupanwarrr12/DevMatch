@@ -11,6 +11,7 @@ authRouter.post("/signUp", async (req, res) => {
     validateSignUpData(req);
 
     const { firstName, lastName, emailId, password, gender } = req.body;
+
     //2.checking if user already exist
     const existingUser = await User.findOne({ emailId });
     if (existingUser) {
@@ -65,7 +66,7 @@ authRouter.post("/login", async (req, res) => {
       res.status(401).json({ message: "Invalid Credentials!!" });
     }
 
-    //4. now will make token and send to the user also send user as response
+    //4. now will make token and send to the user as response
     const token = await user?.getJWT();
     res.cookie("token", token);
     res.send(user);
