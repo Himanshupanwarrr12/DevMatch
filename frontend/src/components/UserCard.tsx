@@ -21,8 +21,10 @@ const UserCard = () => {
           <p className="text-center">future interest</p>
         </div>
 
-        <div className="mt-2 text-blue-800 font-semibold">
-          <a href="https://github.com">Github</a>
+        <div className="mt-2 text-blue-800 ml-8 font-semibold">
+          <a href="https://github.com">Github</a> | 
+          <a href="https://linkedIn.com"> LinkedIn</a> | 
+          <a href="https://x.com"> Twitter</a> 
         </div>
 
         <div className="flex gap-4 m-4 p-2">
