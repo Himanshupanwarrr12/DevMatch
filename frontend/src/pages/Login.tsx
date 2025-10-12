@@ -14,18 +14,24 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-      e.preventDefault()
-      setError("")
-      const userData = await axiosInstance.post("/login",{emailId,password})
-      console.log("UserData : ",userData)
-      console.log("UserData.data : ",userData.data)
+      e.preventDefault();
+      setError("");
+      const userData = await axiosInstance.post("/login", {
+        emailId,
+        password,
+      });
+      console.log("UserData : ", userData);
+      console.log("UserData.data : ", userData.data);
 
-      dispatch(addUser(userData.data))
-      navigate("/")
-    } catch (error:any) {
-      const message = error.response?.data?.message || "Login failed";
-      setError(message);
-      console.log("Login error:", error);
+      dispatch(addUser(userData.data));
+      navigate("/");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Login Failed");
+        console.log("Unexpected error type : ", error);
+      }
     }
   };
 
@@ -69,6 +75,21 @@ const Login = () => {
               Login
             </button>
           </div>
+
+          
+        <div className="text-center mt-6">
+          <p className="text-gray-600">
+            don't have an account?{" "}
+            <button
+              type="button"
+              onClick={() => navigate("/Signup")}
+              className="text-rose-600 cursor-pointer hover:text-rose-700 font-medium"
+            >
+              Signup
+            </button>
+          </p>
+        </div>
+          
         </form>
       </div>
     </div>
