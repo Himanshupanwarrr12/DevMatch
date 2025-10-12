@@ -6,7 +6,7 @@ const serverUrl = baseUrl;
 //basic axios instance
 const axiosInstance = axios.create({
   baseURL: serverUrl,
-  timeout: 1000,
+  timeout: 10000,
   withCredentials: true,
 });
 
@@ -15,17 +15,21 @@ axiosInstance.interceptors.request.use(
     // currently this is empty
     return config;
   },
-  (error) => Promise.reject(error)
+  (error : unknown) => {
+     if (error instanceof Error) {
+      console.log("Request error:", error.message);
+    }
+    return Promise.reject(error);
+  }
 );
 
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  (error: unknown) => {
     console.log("Error caught in Interceptor : ", error);
 
-    if (axios.isAxiosError(error)) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           // Server responded with error status
@@ -49,17 +53,28 @@ axiosInstance.interceptors.response.use(
           return Promise.reject(
             new Error("Network error. Please check your connection.")
           );
-        } else {
+        }
+        
+        else {
           // Something else happened
           console.log("Error:", error.message);
           return Promise.reject(new Error("An error occurred"));
         }
-      } else {
+      }
+
+          // if it's standard error
+        else if( error instanceof Error){
+          console.log("Standard Error:", error.message);
+      return Promise.reject(error);
+        }
+        
+      
+       else {
         // Non-axios error
         console.log("Unknown Error:", error);
         return Promise.reject(new Error("An unexpected error occurred"));
       }
-    }
+    
   }
 );
 
