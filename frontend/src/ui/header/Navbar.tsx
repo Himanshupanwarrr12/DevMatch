@@ -1,14 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import type { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import axiosInstance from "@/utils/axios.config";
 
 const Navbar = () => {
   const user = useSelector((store: RootState) => store.user);
+  console.log("user : ",user)
+  const navigate = useNavigate()
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+
+    
+    axiosInstance.post("/logout")
+    navigate("/login")
+
+    
+  };
    const dropdownRef = useRef<HTMLDivElement>(null); 
 
   // Close dropdown when clicking outside
@@ -24,13 +34,13 @@ const Navbar = () => {
   }, []);
 
 
-
   return (
     <div className="h-[60px] bg-pink-600 w-full mb-2 p-2 flex shadow-2xl justify-between items-center">
       <NavLink to="/" className="text-xl text-white">
         DevMatch
       </NavLink>
 
+      {  user &&
       <div className="flex items-center gap-4 text-xl">
         <h3>{user?.firstName}</h3>
 
@@ -60,14 +70,16 @@ const Navbar = () => {
               <hr className="mt-2" />
               <button
                 onClick={handleLogout}
-                className="w-full block text-left px-4  hover:bg-gray-100 text-gray-700 border-t border-gray-200"
+              className= "w-full block text-left px-4 hover:bg-gray-100 active:bg-gray-200 active:scale-[0.98] active:transition-transform text-gray-700 border-t border-gray-200"
               >
                 Logout
               </button>
             </div>
           )}
         </div>
-      </div>
+      </div> }
+
+
     </div>
   );
 };
