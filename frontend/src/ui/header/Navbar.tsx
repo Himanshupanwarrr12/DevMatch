@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const user = useSelector((store: RootState) => store.user.user);
-  // console.log("user : ",user)
+  const user = useSelector((store: RootState) => store.user);
 
   const [isOpen, setIsOpen] = useState(false);
 
