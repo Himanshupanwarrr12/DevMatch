@@ -1,7 +1,7 @@
 
 const Connections = () => {
   return (
-    <div>Connection</div>
+    <div>cooking...</div>
   )
 }
 
