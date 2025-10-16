@@ -12,19 +12,17 @@ export interface userState {
   user: User | null;
 }
 
-const initialState: userState = {
-  user: null,
-};
+const initialState: User | null = null
 
 export const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: initialState as User |null,
   reducers: {
     addUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
+      return action.payload;
     },
     removeUser: (state, action) => {
-      state.user = null;
+      return null;
     },
   },
 });
