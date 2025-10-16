@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "./ui/footer/Footer";
 import Navbar from "./ui/header/Navbar";
 import { useEffect } from "react";
@@ -9,6 +9,7 @@ import type { RootState } from "./store/store";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const user =  useSelector((store:RootState)=> store.user)
 
     const fetchUser = async () => {
@@ -20,8 +21,10 @@ const MainLayout = () => {
      else{
        try {
         const res = await axiosInstance.get("/profile/view");
+        console.log("res :",res)
         dispatch(addUser(res.data.user));
       } catch (error: unknown) {
+        navigate("/login")
         if (error instanceof Error) {
           console.log("Error : ", error);
         } else {
