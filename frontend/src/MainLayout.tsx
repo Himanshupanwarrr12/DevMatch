@@ -1,53 +1,49 @@
-
-import { Outlet, useNavigate } from "react-router-dom"
-import Footer from "./ui/footer/Footer"
-import Navbar from "./ui/header/Navbar"
-import { useEffect } from "react"
-import axios, { AxiosError } from "axios"
-import { baseUrl } from "./utils/constant"
-import { useDispatch } from "react-redux"
-import { addUser } from "./features/user/userSlice"
+import { Outlet } from "react-router-dom";
+import Footer from "./ui/footer/Footer";
+import Navbar from "./ui/header/Navbar";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "./features/user/userSlice";
+import axiosInstance from "./utils/axios.config";
+import type { RootState } from "./store/store";
 
 const MainLayout = () => {
+  const dispatch = useDispatch();
+  const user =  useSelector((store:RootState)=> store.user)
 
-  // 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+    const fetchUser = async () => {
+    console.log("USER VALUE:", user, "TYPE:", typeof user)
 
-  
-  const fetchUser = async ()=>{
-    try {
-      const res = await axios.get(baseUrl + "/profile/view",{
-        withCredentials:true
-      })
-      dispatch(addUser(res.data))
-
-      
-    } catch (error) {
-
-       if (axios.isAxiosError(error)) {
-        const AxiosError = error as AxiosError;
-
-        if(AxiosError.response?.status === 401 ){
-          navigate("/login")
+    if(user){
+      return ;
+    }
+     else{
+       try {
+        const res = await axiosInstance.get("/profile/view");
+        dispatch(addUser(res.data.user));
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.log("Error : ", error);
+        } else {
+          console.log("Unexpected Error : ", error);
         }
-       
-      console.log("Error : ",error)
-  }}
-}
-  useEffect(()=>{
-    fetchUser()
-  },[])
-  
-  return (
-    <div >
-        <Navbar/>
-        <main >
-            <Outlet/>
-        </main>
-        <Footer/>
-    </div>
-  )
-}
+      }
+     }
+    };
 
-export default MainLayout
+    useEffect(()=>{
+      fetchUser()
+    },[])
+
+  return (
+    <div>
+      <Navbar />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default MainLayout;
