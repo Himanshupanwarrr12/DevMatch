@@ -31,7 +31,7 @@ profileRouter.get(
       
       res.status(200).json({
         success:true,
-        data : userProfile
+        user : userProfile
       })
     } catch (error: unknown) {
       res.status(400).json({
