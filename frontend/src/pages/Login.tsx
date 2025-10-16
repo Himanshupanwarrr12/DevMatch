@@ -20,8 +20,6 @@ const Login = () => {
         emailId,
         password,
       });
-      console.log("UserData : ", userData);
-      console.log("UserData.data : ", userData.data);
 
       dispatch(addUser(userData.data));
       navigate("/");
