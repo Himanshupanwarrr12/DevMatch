@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet,  } from "react-router-dom";
 import Footer from "./ui/footer/Footer";
 import Navbar from "./ui/header/Navbar";
 import { useEffect } from "react";
@@ -9,29 +9,38 @@ import type { RootState } from "./store/store";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
   const user =  useSelector((store:RootState)=> store.user)
 
-    const fetchUser = async () => {
-    console.log("USER VALUE:", user, "TYPE:", typeof user)
 
-    if(user){
-      return ;
-    }
-     else{
+    const hasAuthToken = () => {
+    const cookies = document.cookie.split(';');
+    return cookies.some(cookie => {
+      const [name] = cookie.trim().split('=');
+      return name === 'token'
+    });
+  }
+  
+    const fetchUser = async () => {
+
+      console.log("user : ",user)
+      if(user ) return
+   
+      if(!hasAuthToken()){
+         console.log("user is not logged in")
+         return
+      }
+      
        try {
         const res = await axiosInstance.get("/profile/view");
         console.log("res :",res)
         dispatch(addUser(res.data.user));
       } catch (error: unknown) {
-        navigate("/login")
         if (error instanceof Error) {
           console.log("Error : ", error);
         } else {
           console.log("Unexpected Error : ", error);
         }
       }
-     }
     };
 
     useEffect(()=>{
