@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import type { RootState } from "../../store/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import axiosInstance from "@/utils/axios.config";
+import { removeUser } from "@/features/user/userSlice";
 
 const Navbar = () => {
   const user = useSelector((store: RootState) => store.user);
-  console.log("user : ",user)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  
 
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
 
-    
     axiosInstance.post("/logout")
+    dispatch(removeUser(user))
     navigate("/login")
 
     
