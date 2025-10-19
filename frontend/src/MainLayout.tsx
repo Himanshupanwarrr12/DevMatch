@@ -1,4 +1,4 @@
-import { Outlet,  } from "react-router-dom";
+import { Outlet, useNavigate,  } from "react-router-dom";
 import Footer from "./ui/footer/Footer";
 import Navbar from "./ui/header/Navbar";
 import { useEffect } from "react";
@@ -10,7 +10,7 @@ import type { RootState } from "./store/store";
 const MainLayout = () => {
   const dispatch = useDispatch();
   const user =  useSelector((store:RootState)=> store.user)
-
+  const navigate = useNavigate()
 
     const hasAuthToken = () => {
     const cookies = document.cookie.split(';');
@@ -22,12 +22,12 @@ const MainLayout = () => {
   
     const fetchUser = async () => {
 
-      console.log("user : ",user)
       if(user ) return
    
       if(!hasAuthToken()){
          console.log("user is not logged in")
-         return
+         navigate("/login")
+         return 
       }
       
        try {
