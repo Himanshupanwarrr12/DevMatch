@@ -11,7 +11,7 @@ try {
     // first i will take token from the user
     const token =  req.cookies?.token;
     if(!token){ 
-       return res.status(400).send("Please login")
+       return res.status(401).send("Please login")
     }
     // 2nd i will take the secret key from the .env file
     const secret = process.env.JWT_SECRET
