@@ -10,7 +10,7 @@ interface AuthenticatedRequest extends Request {
   user?: IUser;
 }
 
-const USER_SAFE_DATA = "firstName lastName age about  gender skills ";
+const USER_SAFE_DATA = "firstName lastName photoUrl about gender skills ";
 
 userRouter.get(
   "/user/requests/recieved",
