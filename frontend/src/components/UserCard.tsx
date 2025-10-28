@@ -1,24 +1,35 @@
-const UserCard = () => {
+import type { Feed } from "@/features/feed/feedSlice";
+
+interface userCardProps {
+  user : Feed
+}
+
+const UserCard = ({user}:userCardProps) => {
+
+  if(!user) return <div>User not found!!</div>
+  
+  const {_id,firstName,skills,about,photoUrl,futureInterests} = user
+  
   return (
     <div className="flex   justify-center bg-gray-100 p-4   w-auto">
       <div className="  bg-white p-4 pl-5 pr-5 w-[350px] shadow-2xl ">
         <div className=" flex justify-center ">
           <img
             alt=" img"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSl33J9NvfJSIkFGGrRvRZBmp_LSo-ru3BNhrQ4adehIoTkH4Qs55eSCsMClx2mnfyK9h1"
+            src={photoUrl}
             className=" border-4 object-cover p-2 m-2 rounded-full h-52 w-52  border-rose-400"
           />
         </div>
 
         <div className="p-3 ">
           <h3 className="text-center text-rose-700 pb-2 font-bold text-2xl">
-            Himanshu{" "}
+            {firstName}{" "}
           </h3>
           <p className="text-center font-semibold p-1 m-1 text-gray-600 font-serif">
-            React.Js | Typescript | Next.js
+            {skills}
           </p>
-          <p className="text-center ">about</p>
-          <p className="text-center">future interest</p>
+          <p className="text-center ">{about}</p>
+          <p className="text-center">{futureInterests}</p>
         </div>
 
         <div className="mt-2 text-blue-800 ml-8 font-semibold">
