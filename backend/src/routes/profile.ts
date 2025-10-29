@@ -66,7 +66,7 @@ profileRouter.patch(
         }
       });
       await loggedInUser.save();
-      res.status(200).send("Edited sucessfully");
+      res.status(200).send(loggedInUser);
     } catch (error) {
       res.status(400).json({
         success:false,
