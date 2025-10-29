@@ -1,31 +1,30 @@
 import type { User } from "@/features/user/userSlice";
 
-interface profileCardProps {
-  user:User
+interface ProfileCardProps {
+  user: Partial<User>; // Only this change for type safety
 }
 
-const ProfileCard = ({user}:profileCardProps) => {
-
-  const {photoUrl,firstName,skills,about,futureInterests} = user
+const ProfileCard = ({ user }: ProfileCardProps) => {
+  const { photoUrl, firstName, skills, about, futureInterests } = user;
   
   return (
-    <div className="  bg-white p-4 pl-5 pr-5 w-[350px] shadow-2xl ">
-      <div className=" flex justify-center ">
+    <div className="bg-white p-4 pl-5 pr-5 w-full max-w-[350px] mx-auto shadow-2xl rounded-2xl">
+      <div className="flex justify-center">
         <img
-          alt=" img"
+          alt="img"
           src={photoUrl}
-          className=" border-4 object-cover p-2 m-2 rounded-full h-40 w-40  border-gray-300"
+          className="border-4 object-cover p-2 m-2 rounded-full h-40 w-40 border-rose-300"
         />
       </div>
 
-      <div className="p-3 ">
+      <div className="p-3">
         <h3 className="text-center text-rose-700 pb-2 font-bold text-2xl">
-          {firstName}{" "}
+          {firstName}
         </h3>
         <p className="text-center font-semibold p-1 m-1 text-gray-600 font-serif">
           {skills}
         </p>
-        <p className="text-center ">{about}</p>
+        <p className="text-center">{about}</p>
         <p className="text-center">{futureInterests}</p>
       </div>
 
@@ -36,4 +35,4 @@ const ProfileCard = ({user}:profileCardProps) => {
   );
 };
 
-export default ProfileCard
+export default ProfileCard;
