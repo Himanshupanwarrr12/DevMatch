@@ -25,7 +25,7 @@ const MainLayout = () => {
       if(user ) return
    
       if(!hasAuthToken()){
-         console.log("user is not logged in")
+        //  console.log("user is not logged in")
          navigate("/login")
          return 
       }
