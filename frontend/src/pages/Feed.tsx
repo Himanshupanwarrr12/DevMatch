@@ -14,7 +14,7 @@ const Feed = () => {
     if (feed && feed.length > 0) return;
     try {
       const res = axiosInstance.get("/user/feed");
-      console.log("res : ", (await res).data.users);
+      // console.log("res : ", (await res).data.users);
       dispatch(setFeed((await res).data.users));
     } catch (error: unknown) {
       if (error instanceof Error) {
