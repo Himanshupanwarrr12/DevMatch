@@ -1,14 +1,14 @@
-import type { Feed } from "@/features/feed/feedSlice";
+import type { User } from "@/features/user/userSlice";
 
 interface userCardProps {
-  user : Feed
+  user : User
 }
 
 const UserCard = ({user}:userCardProps) => {
 
   if(!user) return <div>User not found!!</div>
   
-  const {_id,firstName,skills,about,photoUrl,futureInterests} = user
+  const {_id,firstName,skills,gender,about,photoUrl,futureInterests} = user
   
   return (
     <div className="flex   justify-center bg-gray-100 p-4   w-auto">
