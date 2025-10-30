@@ -4,10 +4,13 @@ import userAuth from "../middleware/auth";
 import type { Request, Response } from "express";
 import type { IUser } from "../models/User";
 import { validateProfileEditData } from "../utils/validation";
+import User from "../models/User";
 
 interface ProfileViewRequest extends Request {
   user?: IUser;
 }
+
+const USER_SAFE_DATA = "firstName lastName  photoUrl about gender skills futureInterests links ";
 
 profileRouter.get(
   "/profile/view",
@@ -55,6 +58,7 @@ profileRouter.patch(
       }
       // second i will get the loggedInUser
       const loggedInUser = req.user;
+      console.log("LoggedInUser : ", loggedInUser)
       if (!loggedInUser) {
         return res.status(400).send("User not authenticated");
       }
@@ -66,7 +70,8 @@ profileRouter.patch(
         }
       });
       await loggedInUser.save();
-      res.status(200).send(loggedInUser);
+       const safeUser = await User.findById(loggedInUser._id).select(USER_SAFE_DATA);
+      res.status(200).json(safeUser);
     } catch (error) {
       res.status(400).json({
         success:false,
