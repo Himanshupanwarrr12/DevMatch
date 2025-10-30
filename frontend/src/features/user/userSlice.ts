@@ -12,7 +12,8 @@ export interface User {
   photoUrl:string;
   email: string;
   gender: string;
-  futureInterests:string[];
+  links:string[];
+  futureInterest:string[];
 }
 
 const initialState = null as User | null;
