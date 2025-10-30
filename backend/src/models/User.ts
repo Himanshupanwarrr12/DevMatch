@@ -16,7 +16,6 @@ export interface IUser extends Document {
   lastName: string;
   emailId: string;
   password: string;
-  age: number;
   gender: string;
   skills: string[];
   about: string;
@@ -68,15 +67,6 @@ const userSchema: Schema<IUser> = new Schema(
       enum: ["male", "female", "other"],
       lowercase: true,
       trim: true,
-    },
-    age: {
-      type: Number,
-      min: 0,
-      max: 100,
-      validate: {
-        validator: Number.isInteger,
-        message: "{value} is not an integer",
-      },
     },
     skills: {
       type: [String],
