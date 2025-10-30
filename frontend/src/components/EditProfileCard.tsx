@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../features/user/userSlice";
 import ProfileCard from "./ProfileCard";
 import type { User } from "../features/user/userSlice";
-import { CheckCircle, X, Save, UserCircle } from "lucide-react";
+import { CheckCircle, X, Save, UserCircle, Plus, XCircle } from "lucide-react";
 import axiosInstance from "@/utils/axios.config";
 
 interface EditProfileProps {
@@ -12,26 +12,74 @@ interface EditProfileProps {
 
 const EditProfile = ({ user }: EditProfileProps) => {
   const [firstName, setFirstName] = useState(user.firstName || "");
+  const [lastName, setLastName] = useState(user.lastName || "");
   const [emailId, setEmailId] = useState(user.emailId || "");
   const [about, setAbout] = useState(user.about || "");
+  const [gender, setGender] = useState(user.gender || "");
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
+  const [skills, setSkills] = useState<string[]>(user.skills || []);
+  const [currentSkill, setCurrentSkill] = useState("");
+  const [links,setLinks] = useState(user.links || undefined)
+  const [futureInterest, setFutureInterest] = useState<string[]>(user.futureInterest || []);
+  const [currentInterest, setCurrentInterest] = useState("");
+  
+  
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
 
-
   const dispatch = useDispatch();
+
+   // Skills handlers
+  const addSkill = () => {
+    const trimmedSkill = currentSkill.trim();
+    if (trimmedSkill && !skills.includes(trimmedSkill)) {
+      setSkills([...skills, trimmedSkill]);
+      setCurrentSkill("");
+    }
+  };
+
+  const removeSkill = (skillToRemove: string) => {
+    setSkills(skills.filter(skill => skill !== skillToRemove));
+  };
+
+  const handleSkillKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addSkill();
+    }
+  };
+
+  const addInterest = () => {
+    const trimmed = currentInterest.trim();
+    if (trimmed && !futureInterest.includes(trimmed)) {
+      setFutureInterest([...futureInterest, trimmed]);
+      setCurrentInterest("");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent, callback: () => void) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      callback();
+    }
+  };
 
   const saveProfile = async () => {
     try {
       setError("");
-      const res = axiosInstance.patch(
-        "/profile/edit",
-        { firstName,  about, photoUrl }
-      );
-      console.log("res : ",(await res).data)
-      // dispatch(addUser(res));
+      const res = axiosInstance.patch("/profile/edit", {
+        firstName,
+        lastName,
+        about,
+        photoUrl,
+        gender,
+        skills,
+        futureInterest,
+        links
+      });
+      dispatch(addUser((await res).data));
       setShowToast(true);
-      
+
       setTimeout(() => {
         setShowToast(false);
       }, 3000);
@@ -43,7 +91,8 @@ const EditProfile = ({ user }: EditProfileProps) => {
         setError("An unexpected error occurred");
         console.error("Unknown Error:", error);
       }
-    }  };
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 py-12 px-4">
@@ -52,7 +101,9 @@ const EditProfile = ({ user }: EditProfileProps) => {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-rose-500 rounded-full mb-4">
             <UserCircle className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-rose-900 mb-2">Edit Profile</h1>
+          <h1 className="text-4xl font-bold text-rose-900 mb-2">
+            Edit Profile
+          </h1>
           <p className="text-rose-600">Update your personal information</p>
         </div>
 
@@ -61,7 +112,9 @@ const EditProfile = ({ user }: EditProfileProps) => {
             <h2 className="text-2xl font-bold text-rose-900 mb-6 text-center">
               Profile Preview
             </h2>
-            <ProfileCard user={{ firstName, emailId, about, photoUrl }} />
+            <ProfileCard
+              user={{ firstName, lastName, emailId,  about,gender, photoUrl,skills,futureInterest,links }}
+            />
           </div>
 
           {/* Edit Form Card */}
@@ -84,6 +137,19 @@ const EditProfile = ({ user }: EditProfileProps) => {
                   placeholder="Enter your first name"
                 />
               </div>
+              {/* Last Name */}
+              <div>
+                <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                  placeholder="Enter your last name"
+                />
+              </div>
 
               {/* Email */}
               <div>
@@ -97,6 +163,24 @@ const EditProfile = ({ user }: EditProfileProps) => {
                   className="w-full px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
                   placeholder="your.email@example.com"
                 />
+              </div>
+
+              {/* Gender */}
+             <div>
+                <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  Gender <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="w-full px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800 cursor-pointer"
+                >
+                  <option value="">Select your gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                  <option value="prefer-not-to-say">Prefer not to say</option>
+                </select>
               </div>
 
               {/* About */}
@@ -127,6 +211,104 @@ const EditProfile = ({ user }: EditProfileProps) => {
                 />
               </div>
 
+              {/* skills */}
+              <div>
+                <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  Skills
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={currentSkill}
+                    onChange={(e) => setCurrentSkill(e.target.value)}
+                    onKeyPress={handleSkillKeyPress}
+                    className="flex-1 px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                    placeholder="e.g., React, Node.js"
+                  />
+                   <button
+                    onClick={addSkill}
+                    type="button"
+                    className="px-4 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-lg transition flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+                {/* Display Skills Tags */}
+                {skills.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {skills.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-2 bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-sm font-medium"
+                      >
+                        {skill}
+                        <button
+                          onClick={() => removeSkill(skill)}
+                          className="hover:text-rose-600 transition"
+                        >
+                          <XCircle className="w-4 h-4" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                
+              </div>
+
+             {/* Future Interests */}
+              <div>
+                <label className="block text-sm font-semibold text-rose-900 mb-2">Future Interests</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={currentInterest}
+                    onChange={(e) => setCurrentInterest(e.target.value)}
+                    onKeyPress={(e) => handleKeyPress(e, addInterest)}
+                    className="flex-1 px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                    placeholder="e.g., Next.js, Gen AI (Press Enter)"
+                  />
+                  <button
+                    onClick={addInterest}
+                    type="button"
+                    className="px-4 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-lg transition"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+                {futureInterest.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {futureInterest.map((interest, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-2 bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm font-medium"
+                      >
+                        {interest}
+                        <button
+                          onClick={() => setFutureInterest(futureInterest.filter(i => i !== interest))}
+                          className="hover:text-pink-600 transition"
+                        >
+                          <XCircle className="w-4 h-4" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Links*/}
+              <div>
+                <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  LInks
+                </label>
+                <input
+                  type="url"
+                  value={links}
+                  onChange={(e) => setLinks(e.target.value)}
+                  className="w-full px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                  placeholder="https://example.com/photo.jpg"
+                />
+              </div>
+
               {/* Error Message */}
               {error && (
                 <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 flex items-start gap-3">
@@ -139,12 +321,11 @@ const EditProfile = ({ user }: EditProfileProps) => {
               <button
                 onClick={saveProfile}
                 className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold py-4 rounded-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
-              > 
-                  <>
-                    <Save className="w-5 h-5" />
-                    Save Profile
-                  </>
-                
+              >
+                <>
+                  <Save className="w-5 h-5" />
+                  Save Profile
+                </>
               </button>
             </div>
           </div>
@@ -156,7 +337,9 @@ const EditProfile = ({ user }: EditProfileProps) => {
         <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-50 animate-bounce">
           <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3">
             <CheckCircle className="w-6 h-6" />
-            <span className="font-semibold text-lg">Profile saved successfully!</span>
+            <span className="font-semibold text-lg">
+              Profile saved successfully!
+            </span>
           </div>
         </div>
       )}
