@@ -1,3 +1,4 @@
+import React from 'react';
 import type { User } from "@/features/user/userSlice";
 
 interface ProfileCardProps {
@@ -19,29 +20,50 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
   console.log("Links" ,links)
 
   return (
-    <div className="bg-white p-4 pl-5 pr-5 w-full max-w-[350px] mx-auto shadow-2xl rounded-2xl">
-      <div className="flex justify-center">
+    <div className="bg-white w-full max-w-[380px] mx-auto shadow-xl rounded-2xl overflow-hidden">
+      <div className="relative h-[300px] bg-gray-200">
         <img
           alt="img"
           src={photoUrl}
-          className=" object-cover p-2 m-2 rounded-full h-40 w-40 "
+          className="w-full h-full object-cover"
         />
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
       </div>
 
-      <div className="p-3">
-        <h3 className="text-center text-rose-700  font-bold text-xl">
+      {/* Name and Gender Section */}
+      <div className="p-5 pb-3 flex justify-between items-start">
+        <h2 className="text-3xl font-bold text-black">
           {firstName} {lastName}
-        </h3>
-        <p className="text-center">{gender}</p>
-        <p className="text-center font-semibold p-1 m-1 text-gray-600 font-serif">
-          {skills}
-        </p>
-        <p className="text-center">{about}</p>
-        <p className="text-center">{futureInterest}</p>
+        </h2>
+        {gender && (
+          <p className="text-lg font-bold text-rose-500 mt-2">{gender}</p>
+        )}
       </div>
 
-      <div className="mt-2 text-blue-800 font-semibold">
-        <a href="https://github.com">{links}</a>
+      <div className="px-5 pb-5">
+        {skills && (
+          <div className="mb-3">
+            <p className="text-xs font-semibold text-gray-500 uppercase">Skills</p>
+            <p className="text-gray-800 font-medium">{skills + " "}</p>
+          </div>
+        )}
+
+        {about && (
+          <div className="mb-3">
+            <p className="text-xs font-semibold text-gray-500 uppercase ">About</p>
+            <p className="text-gray-800 text-sm leading-relaxed whitespace-pre-line">
+              {about}
+            </p>
+          </div>
+        )}
+
+        {futureInterest && (
+          <div className="mb-3">
+            <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Future Interest</p>
+            <p className="text-gray-900 font-medium">{futureInterest + " "}</p>
+          </div>
+        )}
       </div>
     </div>
   );
