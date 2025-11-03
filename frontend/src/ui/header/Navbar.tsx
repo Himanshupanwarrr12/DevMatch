@@ -42,13 +42,13 @@ const Navbar = () => {
 
       {user && (
         <div className="flex items-center gap-4 text-xl">
-          <h3>{user?.firstName}</h3>
+          <h3>{user?.firstName} {user?.lastName}</h3>
 
           <div className="relative" ref={dropdownRef}>
             <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
               <img
                 className="h-8 w-8 rounded-full"
-                src="https://www.shutterstock.com/shutterstock/photos/1677509740/display_1500/stock-vector-default-avatar-profile-icon-social-media-user-vector-1677509740.jpg"
+                src={user.photoUrl}
                 alt="User profile picture"
               />
             </div>
