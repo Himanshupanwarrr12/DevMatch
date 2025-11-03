@@ -96,7 +96,7 @@ userRouter.get(
         hideUserIds.add(connection.fromUserId.toString()),
           hideUserIds.add(connection.toUserId.toString());
       });
-      console.log("hideUserIds : ", hideUserIds);
+      // console.log("hideUserIds : ", hideUserIds);
 
       // fetch the feed except the pended ones
       const users = await User.find({
