@@ -58,7 +58,7 @@ profileRouter.patch(
       }
       // second i will get the loggedInUser
       const loggedInUser = req.user;
-      console.log("LoggedInUser : ", loggedInUser)
+      // console.log("LoggedInUser : ", loggedInUser)
       if (!loggedInUser) {
         return res.status(400).send("User not authenticated");
       }
