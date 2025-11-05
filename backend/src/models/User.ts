@@ -20,7 +20,7 @@ export interface IUser extends Document {
   skills: string[];
   about: string;
   photoUrl: string;
-  futureInterest: string[];
+  futureInterests: string[];
   links: Ilinks;
   getJWT(): Promise<string>;
   isValidPassword(password: string): Promise<boolean>;
@@ -83,7 +83,7 @@ const userSchema: Schema<IUser> = new Schema(
         "https://i0.wp.com/fdlc.org/wp-content/uploads/2021/01/157-1578186_user-profile-default-image-png-clipart.png.jpeg?fit=880%2C769&ssl=1",
       required: false,
     },
-    futureInterest: {
+    futureInterests: {
       type: [String],
       required: false,
       default: [],
