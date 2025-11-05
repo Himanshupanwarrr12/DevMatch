@@ -1,16 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { User } from "../user/userSlice";
 
-export interface Feed {
-  _id : string;
-  firstName: string;
-  gender: string;
-  about:string;
-  sklls:string[]
-  photoUrl:string;
-}
-
-const initialState:  Feed[] = []
+const initialState:  User[] = []
 
 export const feedSlice = createSlice({
   name: "feed",
