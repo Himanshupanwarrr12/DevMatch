@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+export interface SocialLinks {
+  github?: string;
+  linkedin?: string;
+  portfolio?: string;
+}
 
 export interface User {
   _id : string;
@@ -12,8 +17,8 @@ export interface User {
   photoUrl:string;
   email: string;
   gender: string;
-  links:string[];
-  futureInterest:string[];
+  links:SocialLinks;
+  futureInterests:string[];
 }
 
 const initialState = null as User | null;
