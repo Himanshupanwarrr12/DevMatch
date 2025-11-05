@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../features/user/userSlice";
 import ProfileCard from "./ProfileCard";
 import type { User } from "../features/user/userSlice";
-import { CheckCircle, X, Save, UserCircle, Plus, XCircle, } from "lucide-react";
+import { CheckCircle, X, Save, UserCircle, Plus, XCircle } from "lucide-react";
 import axiosInstance from "@/utils/axios.config";
+import type { SocialLinks } from "../features/user/userSlice";
 
 interface EditProfileProps {
   user: User;
@@ -19,6 +20,14 @@ const EditProfile = ({ user }: EditProfileProps) => {
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
   const [skills, setSkills] = useState(user.skills || []);
   const [currentSkill, setCurrentSkill] = useState("");
+  const [futureInterests, setFutureInterests] = useState(
+    user.futureInterests || []
+  );
+  const [currentInterest, setCurrentInterest] = useState("");
+
+  const [links, setLinks] = useState<SocialLinks>(
+    user.links || { github: "", linkedin: "", portfolio: "" }
+  );
 
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -26,18 +35,45 @@ const EditProfile = ({ user }: EditProfileProps) => {
 
   const dispatch = useDispatch();
 
-  const addSkill = () =>{
-    const trimmedSkill = currentSkill.trim()
-    if(trimmedSkill && !skills.includes(trimmedSkill)){
-      setSkills([...skills, trimmedSkill])
-      setCurrentSkill("")
+  const addSkill = () => {
+    const trimmedSkill = currentSkill.trim();
+    if (trimmedSkill && !skills.includes(trimmedSkill)) {
+      setSkills([...skills, trimmedSkill]);
+      setCurrentSkill("");
     }
-  }
+  };
 
-  const removeSkill = (skillToRemove : string) => {
-    setSkills(skills.filter ( skill => skill !== skillToRemove))
+  const removeSkill = (skillToRemove: string) => {
+    setSkills(skills.filter((skill) => skill !== skillToRemove));
+  };
 
-  }
+  const handleSkillKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addSkill();
+    }
+  };
+
+  const addInterest = () => {
+    const trimmedInterest = currentInterest.trim();
+    if (trimmedInterest && !futureInterests.includes(trimmedInterest)) {
+      setFutureInterests([...futureInterests, trimmedInterest]);
+      setCurrentInterest("");
+    }
+  };
+
+  const handleInterestKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addInterest();
+    }
+  };
+
+  const removeInterest = (interestToRemove: string) => {
+    setFutureInterests(
+      futureInterests.filter((interest) => interest !== interestToRemove)
+    );
+  };
 
   const saveProfile = async () => {
     setError("");
@@ -55,6 +91,9 @@ const EditProfile = ({ user }: EditProfileProps) => {
         about,
         photoUrl,
         gender,
+        skills,
+        futureInterests,
+        links,
       });
 
       dispatch(addUser(res.data));
@@ -73,9 +112,6 @@ const EditProfile = ({ user }: EditProfileProps) => {
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 py-12 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-rose-500 rounded-full mb-4">
-            <UserCircle className="w-8 h-8 text-white" />
-          </div>
           <h1 className="text-4xl font-bold text-rose-900 mb-2">
             Edit Profile
           </h1>
@@ -97,7 +133,9 @@ const EditProfile = ({ user }: EditProfileProps) => {
                   about,
                   gender,
                   photoUrl,
-                  skills
+                  skills,
+                  futureInterests,
+                  links,
                 }}
               />
             </div>
@@ -203,23 +241,24 @@ const EditProfile = ({ user }: EditProfileProps) => {
                 <label className="block text-sm font-semibold text-rose-900 mb-2">
                   Skills
                 </label>
-                <div> 
-                   <input
-                  type="text"
-                  value={currentSkill}
-                  onChange={(e) => setCurrentSkill(e.target.value)}
-                  className="flex-1 px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
-                  placeholder="e.g- React, Node.js"
-                />
-                <button
-                onClick={addSkill}
-                 className="px-4 py-3 ml-5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg transition" >
-                  <Plus className="w-4 h-4" />
-                </button>
+                <div>
+                  <input
+                    type="text"
+                    value={currentSkill}
+                    onChange={(e) => setCurrentSkill(e.target.value)}
+                    onKeyDown={handleSkillKeyPress}
+                    className="flex-1 px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                    placeholder="e.g- React, Node.js"
+                  />
+                  <button
+                    onClick={addSkill}
+                    className="px-4 py-3 ml-5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg transition"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
                 </div>
-                {
-                  skills.length > 0 && (
-                     <div className="flex flex-wrap gap-2 mt-3">
+                {skills.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
                     {skills.map((skill, index) => (
                       <span
                         key={index}
@@ -235,8 +274,105 @@ const EditProfile = ({ user }: EditProfileProps) => {
                       </span>
                     ))}
                   </div>
-                  )
-                }              
+                )}
+              </div>
+
+              {/* futureInterests */}
+              <div>
+                <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  FutureInterests
+                </label>
+                <div>
+                  <input
+                    type="text"
+                    value={currentInterest}
+                    onChange={(e) => {
+                      setCurrentInterest(e.target.value);
+                    }}
+                    onKeyDown={handleInterestKeyPress}
+                    className="flex-1 px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                    placeholder="e.g- React, Node.js"
+                  />
+                  <button
+                    onClick={addInterest}
+                    className="px-4 py-3 ml-5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg transition"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+                {futureInterests.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {futureInterests.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-2 bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-sm font-medium"
+                      >
+                        {skill}
+                        <button
+                          onClick={() => removeInterest(skill)}
+                          className="hover:text-rose-600 transition"
+                        >
+                          <XCircle className="w-4 h-4" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Links Section */}
+              <div>
+                <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  Social Links
+                </label>
+
+                {/* GitHub Link */}
+                <div className="mb-3">
+                  <label className="block text-xs font-medium text-rose-700 mb-1">
+                    GitHub
+                  </label>
+                  <input
+                    type="url"
+                    value={links.github || ""}
+                    onChange={(e) =>
+                      setLinks({ ...links, github: e.target.value })
+                    }
+                    className="w-full px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                    placeholder="https://github.com/username"
+                  />
+                </div>
+
+                {/* LinkedIn Link */}
+                <div className="mb-3">
+                  <label className="block text-xs font-medium text-rose-700 mb-1">
+                    LinkedIn
+                  </label>
+                  <input
+                    type="url"
+                    value={links.linkedin || ""}
+                    onChange={(e) =>
+                      setLinks({ ...links, linkedin: e.target.value })
+                    }
+                    className="w-full px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                    placeholder="https://linkedin.com/in/username"
+                  />
+                </div>
+
+                {/* Portfolio Link */}
+                <div className="mb-3">
+                  <label className="block text-xs font-medium text-rose-700 mb-1">
+                    Portfolio
+                  </label>
+                  <input
+                    type="url"
+                    value={links.portfolio || ""}
+                    onChange={(e) =>
+                      setLinks({ ...links, portfolio: e.target.value })
+                    }
+                    className="w-full px-4 py-3 bg-rose-50 border-2 border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 transition text-gray-800"
+                    placeholder="https://yourportfolio.com"
+                  />
+                </div>
               </div>
 
               {/* Error Message */}
