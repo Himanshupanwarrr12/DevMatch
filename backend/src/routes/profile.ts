@@ -27,6 +27,8 @@ profileRouter.get(
         gender:user?.gender,
         skills:user?.skills,
         about:user?.about,
+        futureInterests: user?.futureInterests,
+        links: user?.links,
         photoUrl:user?.photoUrl,
         createdAt:user?.createdAt,
         updatedAt:user?.updatedAt
