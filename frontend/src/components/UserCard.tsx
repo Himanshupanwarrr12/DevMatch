@@ -1,4 +1,5 @@
 import type { User } from "@/features/user/userSlice";
+import { FaGithub, FaGlobe, FaLinkedin } from "react-icons/fa";
 
 interface userCardProps {
   user : User
@@ -8,35 +9,99 @@ const UserCard = ({user}:userCardProps) => {
 
   if(!user) return <div>User not found!!</div>
   
-  const {_id,firstName,skills,gender,about,photoUrl,futureInterests} = user
+  const {_id,firstName,lastName,skills,gender,about,photoUrl,futureInterests,links} = user
   
   return (
     <div className="flex   justify-center bg-gray-100 p-4   w-auto">
       <div className="  bg-white p-4 pl-5 pr-5 w-[350px] shadow-2xl ">
-        <div className=" flex justify-center ">
-          <img
-            alt=" img"
-            src={photoUrl}
-            className=" border-4 object-cover p-2 m-2 rounded-full h-52 w-52  border-rose-400"
-          />
-        </div>
+        
+          <div className="relative h-[300px] bg-gray-200">
+        <img
+          alt="img"
+          src={photoUrl}
+          className="w-full h-full object-cover"
+        />
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+      </div>
+         {/* Name and Gender Section */}
+      <div className="p-5 pb-3 flex justify-between items-start">
+        <h2 className="text-3xl font-bold text-black">
+          {firstName} {lastName}
+        </h2>
+        {gender && (
+          <p className="text-lg font-bold text-rose-500 mt-2">{gender}</p>
+        )}
+      </div>
 
-        <div className="p-3 ">
-          <h3 className="text-center text-rose-700 pb-2 font-bold text-2xl">
-            {firstName}{" "}
-          </h3>
-          <p className="text-center font-semibold p-1 m-1 text-gray-600 font-serif">
-            {skills}
-          </p>
-          <p className="text-center ">{about}</p>
-          <p className="text-center">{futureInterests}</p>
-        </div>
-
-        <div className="mt-2 text-blue-800 ml-8 font-semibold">
-          <a href="https://github.com">Github</a> | 
-          <a href="https://linkedIn.com"> LinkedIn</a> | 
-          <a href="https://x.com"> Twitter</a> 
-        </div>
+         <div className="px-5 pb-5">
+                {skills && (
+                  <div className="mb-3">
+                    <p className="text-xs font-semibold text-gray-500 uppercase">Skills</p>
+                    <p className="text-gray-800 font-medium">{skills + " "}</p>
+                  </div>
+                )}
+        
+                {about && (
+                  <div className="mb-3">
+                    <p className="text-xs font-semibold text-gray-500 uppercase">About</p>
+                    <p className="text-gray-800 text-sm leading-relaxed whitespace-pre-line">
+                      {about}
+                    </p>
+                  </div>
+                )}
+        
+                {futureInterests && (
+                  <div className="mb-3">
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Future Interest</p>
+                    <p className="text-gray-900 font-medium">{futureInterests + " "}</p>
+                  </div>
+                )}
+        
+                {/* Links Section */}
+                {links && (links.github || links.linkedin || links.portfolio) && (
+                  <div className="mb-3">
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Links</p>
+                    <div className="flex gap-3">
+                      {links.github && (
+                        <a
+                          href={links.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-blue-800 hover:text-rose-500 transition"
+                        >
+                          <FaGithub className="w-5 h-5" />
+                          <span className="text-sm font-medium">GitHub</span>
+                        </a>
+                      )}
+                      
+                      {links.linkedin && (
+                        <a
+                          href={links.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-gray-700 hover:text-rose-500 transition"
+                        >
+                          <FaLinkedin className="w-5 h-5" />
+                          <span className="text-sm font-medium">LinkedIn</span>
+                        </a>
+                      )}
+                      
+                      {links.portfolio && (
+                        <a
+                          href={links.portfolio}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-gray-700 hover:text-rose-500 transition"
+                        >
+                          <FaGlobe className="w-5 h-5" />
+                          <span className="text-sm font-medium">Portfolio</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
         <div className="flex gap-4 m-4 p-2">
           <button className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
