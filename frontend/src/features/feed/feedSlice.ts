@@ -8,7 +8,7 @@ export const feedSlice = createSlice({
   name: "feed",
   initialState,
   reducers: {
-    setFeed: (state, action: PayloadAction<Feed[]>) => {
+    setFeed: (state, action: PayloadAction<User[]>) => {
       return action.payload;
     },
     removeUserFromFeed: (state, action: PayloadAction<string>) => {
