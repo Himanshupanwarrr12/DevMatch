@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp"
 import Feed from "./pages/Feed"
 import Profile from "./pages/Profile"
 import Connections from "./pages/Connections"
+import Requests from "./pages/Requests"
 
 const Router = createBrowserRouter([{
   path:'/',
@@ -30,6 +31,10 @@ const Router = createBrowserRouter([{
       path:'connections',
       element:<Connections/>
     },
+    {
+      path:"requests",
+      element:<Requests/>
+    }
   ]
 }])
 
