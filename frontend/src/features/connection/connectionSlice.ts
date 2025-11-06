@@ -1,21 +1,19 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { User } from "../user/userSlice";
 
-const initialState : User[] = []
+const initialState: User[] = [];
 
-
- const connectionSlice = createSlice({
-    name:"connections",
-    initialState,
-    reducers:{
-        showConnections : (state,action: PayloadAction<User[]>) =>{
-            return action.payload
-        },
-        removeConnections:() => null,
+const connectionSlice = createSlice({
+  name: "connections",
+  initialState,
+  reducers: {
+    setConnections: (state, action: PayloadAction<User[]>) => {
+      return action.payload;
     },
-    
- })
+    removeConnections: () => null,
+  },
+});
 
- export const {showConnections,removeConnections} = connectionSlice.actions
+export const { setConnections, removeConnections } = connectionSlice.actions;
 
- export default connectionSlice.reducer;
+export default connectionSlice.reducer;
