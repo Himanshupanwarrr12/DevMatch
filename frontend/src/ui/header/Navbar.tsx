@@ -67,6 +67,12 @@ const Navbar = () => {
                 >
                   Connections
                 </NavLink>
+                <NavLink
+                  to="/requests"
+                  className="w-full block text-left px-4 pb-4  hover:bg-gray-100 text-gray-700"
+                >
+                  Requests
+                </NavLink>
                 <hr className="mt-2" />
                 <button
                   onClick={handleLogout}
