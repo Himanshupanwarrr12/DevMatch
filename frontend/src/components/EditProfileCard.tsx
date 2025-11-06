@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../features/user/userSlice";
 import ProfileCard from "./ProfileCard";
 import type { User } from "../features/user/userSlice";
-import { CheckCircle, X, Save, UserCircle, Plus, XCircle } from "lucide-react";
+import { CheckCircle, X, Save, Plus, XCircle } from "lucide-react";
 import axiosInstance from "@/utils/axios.config";
 import type { SocialLinks } from "../features/user/userSlice";
 
