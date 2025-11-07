@@ -1,11 +1,26 @@
+import { removeUserFromFeed } from "@/features/feed/feedSlice";
 import type { User } from "@/features/user/userSlice";
+import axiosInstance from "@/utils/axios.config";
 import { FaGithub, FaGlobe, FaLinkedin } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 
 interface userCardProps {
   user : User
 }
 
 const UserCard = ({user}:userCardProps) => {
+    const dispatch = useDispatch()
+
+  const handleFeedAction = (status:string, userId:string) =>{
+    try {
+      axiosInstance.post("request/send/"+status+"/"+"userId")
+      dispatch(removeUserFromFeed(userId))
+    } catch (error:unknown) {
+       console.log("Error : ",error)
+    }
+    
+  }
+  
 
   if(!user) return <div>User not found!!</div>
   
@@ -104,8 +119,12 @@ const UserCard = ({user}:userCardProps) => {
               </div>
 
         <div className="flex gap-4 m-4 p-2">
-          <button className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
-          <button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Ignore</button>
+          <button
+           onClick={ () => handleFeedAction("Interested",_id)}
+           className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
+          <button 
+          onClick={() => handleFeedAction("Ignored",_id)}
+          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Ignore</button>
         </div>
       </div>
     </div>
