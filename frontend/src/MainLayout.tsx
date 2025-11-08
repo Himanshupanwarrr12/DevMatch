@@ -32,7 +32,7 @@ const MainLayout = () => {
       
        try {
         const res = await axiosInstance.get("/profile/view");
-        console.log("res :",res)
+        // console.log("res :",res)
         dispatch(addUser(res.data.user));
       } catch (error: unknown) {
         if (error instanceof Error) {
