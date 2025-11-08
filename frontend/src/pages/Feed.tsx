@@ -13,9 +13,8 @@ const Feed = () => {
   const getFeed = async () => {
     if (feed && feed.length > 0) return;
     try {
-      const res = axiosInstance.get("/user/feed");
-      // console.log("res : ", (await res).data.users);
-      dispatch(setFeed((await res).data.users));
+      const res = await axiosInstance.get("/user/feed");
+      dispatch(setFeed(res.data.users));
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -57,13 +56,10 @@ const Feed = () => {
   }
 
   return (
-  
     <div>
-      {
-        feed.map((user)=> {
-         return  <UserCard key={user._id} user={user}/>
-        })
-      }
+      {feed.map((user) => {
+        return <UserCard key={user._id} user={user} />;
+      })}
     </div>
   );
 };
