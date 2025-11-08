@@ -7,9 +7,14 @@ const Profile = () => {
     return store.user;
   });
 
-  if(!user) return <div className="text-center p-20 font-bold text-red-600 text-3xl">Loading Profile...</div>
+  if (!user)
+    return (
+      <div className="text-center p-20 font-bold text-red-600 text-3xl">
+        Loading Profile...
+      </div>
+    );
 
-  return < EditProfileCard user={user}/>
+  return <EditProfileCard user={user} />;
 };
 
 export default Profile;
