@@ -11,17 +11,15 @@ interface userCardProps {
 const UserCard = ({user}:userCardProps) => {
     const dispatch = useDispatch()
 
-  const handleFeedAction = (status:string, userId:string) =>{
+  const handleFeedAction = async (status:string, userId:string) =>{
     try {
-      axiosInstance.post("request/send/"+status+"/"+"userId")
+     await axiosInstance.post("request/send/"+status+"/"+userId)
       dispatch(removeUserFromFeed(userId))
     } catch (error:unknown) {
        console.log("Error : ",error)
     }
-    
   }
   
-
   if(!user) return <div>User not found!!</div>
   
   const {_id,firstName,lastName,skills,gender,about,photoUrl,futureInterests,links} = user
@@ -120,10 +118,10 @@ const UserCard = ({user}:userCardProps) => {
 
         <div className="flex gap-4 m-4 p-2">
           <button
-           onClick={ () => handleFeedAction("Interested",_id)}
+           onClick={ () => handleFeedAction("interested",_id)}
            className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
           <button 
-          onClick={() => handleFeedAction("Ignored",_id)}
+          onClick={() => handleFeedAction("ignored",_id)}
           className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Ignore</button>
         </div>
       </div>
