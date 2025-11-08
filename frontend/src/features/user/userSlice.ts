@@ -12,13 +12,13 @@ export interface User {
   firstName: string;
   emailId:string;
   lastName: string;
-  about:string;
-  skills:string[];
-  photoUrl:string;
-  email: string;
+  about?:string;
+  skills?:string[];
+  photoUrl?:string;
+  email?: string;
   gender: string;
-  links:SocialLinks;
-  futureInterests:string[];
+  links?:SocialLinks;
+  futureInterests?:string[];
 }
 
 const initialState = null as User | null;
