@@ -22,7 +22,7 @@ export interface IUser extends Document {
   photoUrl: string;
   futureInterests: string[];
   links: Ilinks;
-  getJWT(): Promise<string>;
+  getJWT(): string;
   isValidPassword(password: string): Promise<boolean>;
   createdAt: Date;
   updatedAt: Date;
@@ -98,13 +98,16 @@ const userSchema: Schema<IUser> = new Schema(
 );
 
 // adding getJwt method to userSchema
-userSchema.methods.getJWT = async function (this: IUser): Promise<string> {
+userSchema.methods.getJWT = function (this: IUser): string {
   const user = this;
   const secretKey = process.env.JWT_SECRET;
+
   if (!secretKey) {
     throw new Error("JWT_SECRET is required");
   }
+
   const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: "7d" });
+
   return token;
 };
 
