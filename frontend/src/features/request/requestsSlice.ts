@@ -7,12 +7,12 @@ const requestsSlice = createSlice({
     name:"requests",
     initialState,
     reducers:{
-        showRequests:(state,action) => {
+        setRequests:(state,action) => {
             return action.payload
         },
         removeRequests: ()=> null
     }
 })
 
-export const {showRequests,removeRequests} = requestsSlice.actions
+export const {setRequests,removeRequests} = requestsSlice.actions
 export default  requestsSlice.reducer
