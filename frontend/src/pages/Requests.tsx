@@ -51,9 +51,13 @@ const Requests = () => {
     <div className="flex flex-col gap-5  py-4">
       <h1 className="text-rose-700 text-3xl text-center font-bold">Requests</h1>
 
-      {requests.map((requestObj) => {
-        console.log(" RequestObj : ", requestObj.fromUserId);
+      {error && (
+        <div className="max-w-md mx-auto w-full p-4 bg-red-900/20 border border-red-600 rounded-lg">
+          <p className="text-red-500 text-sm text-center">{error}</p>
+        </div>
+      )}
 
+      {requests.map((requestObj) => {
         const { photoUrl, firstName, lastName, skills } = requestObj.fromUserId;
 
         return (
