@@ -1,8 +1,9 @@
-import { removeUserFromFeed } from "@/features/feed/feedSlice";
+import { addUserBackToFeed, removeUserFromFeed } from "@/features/feed/feedSlice";
 import type { User } from "@/features/user/userSlice";
 import axiosInstance from "@/utils/axios.config";
+import type { RootState } from "../store/store";
 import { FaGithub, FaGlobe, FaLinkedin } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 interface userCardProps {
   user : User
@@ -11,14 +12,21 @@ interface userCardProps {
 const UserCard = ({user}:userCardProps) => {
     const dispatch = useDispatch()
 
-  const handleFeedAction = async (status:string, userId:string) =>{
-    try {
-     await axiosInstance.post("request/send/"+status+"/"+userId)
-      dispatch(removeUserFromFeed(userId))
-    } catch (error:unknown) {
-       console.log("Error : ",error)
+    const feed = useSelector((store:RootState) => store.feed)
+ const handleFeedAction = async (status: string, userId: string) => {
+   const userToRemove = feed.find(user => user._id === userId);
+  dispatch(removeUserFromFeed(userId));
+  
+  try {
+    await axiosInstance.post(`request/send/${status}/${userId}`);
+  } catch (error: unknown) {
+    // Rollback: User ko wapis feed mein daal do
+    if (userToRemove) {
+      dispatch(addUserBackToFeed(userToRemove));
     }
+    console.log("Error:", error);
   }
+};
   
   if(!user) return <div>User not found!!</div>
   
@@ -117,12 +125,12 @@ const UserCard = ({user}:userCardProps) => {
               </div>
 
         <div className="flex gap-4 m-4 p-2">
-          <button
-           onClick={ () => handleFeedAction("interested",_id)}
-           className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
           <button 
           onClick={() => handleFeedAction("ignored",_id)}
           className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Ignore</button>
+            <button
+           onClick={ () => handleFeedAction("interested",_id)}
+           className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
         </div>
       </div>
     </div>
