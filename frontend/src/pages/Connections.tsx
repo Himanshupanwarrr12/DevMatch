@@ -37,7 +37,6 @@ const Connections = () => {
 
   const connections = useSelector((store: RootState) => store.connections);
 
-  // Loading state
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -49,7 +48,6 @@ const Connections = () => {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen px-4">
@@ -71,7 +69,6 @@ const Connections = () => {
     );
   }
 
-  // No connections check
   if (!connections || connections.length === 0) {
     return (
       <div className="flex flex-col items-center mt-8 px-4 max-w-4xl mx-auto">
@@ -88,12 +85,11 @@ const Connections = () => {
     );
   }
 
-  // Success state with connections
   return (
     <div className="flex flex-col items-center mt-8 px-4 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold text-rose-500 mb-8">Connections</h1>
 
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-8">
         {connections.map((connection) => (
           <ProfileCard key={connection._id} user={connection} />
         ))}
