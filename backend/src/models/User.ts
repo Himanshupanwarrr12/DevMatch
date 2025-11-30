@@ -70,8 +70,7 @@ const userSchema: Schema<IUser> = new Schema(
     },
     skills: {
       type: [String],
-      required: false,
-    },
+      required: false,    },
     about: {
       type: String,
       default: "default description",
