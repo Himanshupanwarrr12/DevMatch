@@ -6,6 +6,7 @@ import Feed from "./pages/Feed"
 import Profile from "./pages/Profile"
 import Connections from "./pages/Connections"
 import Requests from "./pages/Requests"
+import Chat from "./pages/Chat"
 
 const Router = createBrowserRouter([{
   path:'/',
@@ -34,7 +35,11 @@ const Router = createBrowserRouter([{
     {
       path:"requests",
       element:<Requests/>
-    }
+    },
+    {
+      path:"chat/:userId",
+      element:<Chat/>
+    } 
   ]
 }])
 
