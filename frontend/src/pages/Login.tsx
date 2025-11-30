@@ -5,8 +5,8 @@ import { addUser } from "@/features/user/userSlice";
 import axiosInstance from "@/utils/axios.config";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("Henry12@gmail.com");
-  const [password, setPassword] = useState("Henrywar@12");
+  const [emailId, setEmailId] = useState("speed12@gmail.com");
+  const [password, setPassword] = useState("Speedwar@12");
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
