@@ -4,20 +4,21 @@ import type { RootState } from "../store/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileCard from "@/components/ProfileCard";
+import { useNavigate } from "react-router-dom";
 
 const Connections = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchedConnections = async () => {
     try {
       setLoading(true);
-      setError(""); 
-      
+      setError("");
+
       const res = await axiosInstance.get("user/connections");
       dispatch(setConnections(res.data?.connections));
-      
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -31,6 +32,10 @@ const Connections = () => {
     }
   };
 
+  function handleChat(userId:string){
+    navigate(`/chat/${userId}`);
+  }
+  
   useEffect(() => {
     fetchedConnections();
   }, []);
@@ -91,7 +96,13 @@ const Connections = () => {
 
       <div className="w-full space-y-8">
         {connections.map((connection) => (
-          <ProfileCard key={connection._id} user={connection} showActions = {true} />
+          <ProfileCard
+            key={connection._id}
+            user={connection}
+            showActions={true}
+            onChat={() => handleChat(connection._id)}
+            onRemove={()=>handleRemoveConnection(connection._id)}
+          />
         ))}
       </div>
     </div>
