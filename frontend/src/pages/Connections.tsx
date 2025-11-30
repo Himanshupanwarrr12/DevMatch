@@ -91,7 +91,7 @@ const Connections = () => {
 
       <div className="w-full space-y-8">
         {connections.map((connection) => (
-          <ProfileCard key={connection._id} user={connection} />
+          <ProfileCard key={connection._id} user={connection} showActions = {true} />
         ))}
       </div>
     </div>
