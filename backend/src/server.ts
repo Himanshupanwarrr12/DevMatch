@@ -5,6 +5,8 @@ const port = 7777;
 import cors from "cors";
 import dbConnection from "./config/database";
 import dotenv from "dotenv";
+import http from "http"
+import { Server } from "socket.io";
 
 dotenv.config();
 
@@ -29,9 +31,17 @@ app.use("/", userRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 
+const httpServer = http.createServer(app)
+
+const io = new Server(httpServer,{
+  cors:(
+    {origin:"http://localhost:5173"}
+  )
+})
+
 dbConnection()
   .then(() => {
-    app.listen(process.env.PORT, () => {
+    httpServer.listen(process.env.PORT, () => {
       console.log(`server is running at ${port}`);
     });
   })
