@@ -1,6 +1,4 @@
-import React from "react";
-
-export default function ChatWindow() {
+  const Chat =() => {
   return (
     <div className="flex flex-col h-screen bg-gray-100 p-4">
       {/* Chat Messages */}
@@ -32,3 +30,5 @@ export default function ChatWindow() {
     </div>
   );
 }
+
+export default Chat
