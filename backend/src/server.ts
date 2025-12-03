@@ -6,7 +6,6 @@ import cors from "cors";
 import dbConnection from "./config/database";
 import dotenv from "dotenv";
 import http from "http"
-import { Server } from "socket.io";
 
 dotenv.config();
 
@@ -25,6 +24,7 @@ import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import profileRouter from "./routes/profile";
 import requestRouter from "./routes/request";
+import intializeSocket from "./utils/socket";
 
 app.use("/", authRouter);
 app.use("/", userRouter);
@@ -33,11 +33,7 @@ app.use("/", requestRouter);
 
 const httpServer = http.createServer(app)
 
-const io = new Server(httpServer,{
-  cors:(
-    {origin:"http://localhost:5173"}
-  )
-})
+intializeSocket(httpServer)
 
 dbConnection()
   .then(() => {
