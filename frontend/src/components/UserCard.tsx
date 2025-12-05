@@ -51,7 +51,7 @@ const UserCard = ({user}:userCardProps) => {
           {firstName} {lastName}
         </h2>
         {gender && (
-          <p className="text-lg font-bold text-rose-500 mt-2">{gender}</p>
+          <p className="text-lg font-bold text-slate-600 mt-2">{gender}</p>
         )}
       </div>
 
@@ -89,7 +89,7 @@ const UserCard = ({user}:userCardProps) => {
                           href={links.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-blue-800 hover:text-rose-500 transition"
+                          className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 transition"
                         >
                           <FaGithub className="w-5 h-5" />
                           <span className="text-sm font-medium">GitHub</span>
@@ -101,7 +101,7 @@ const UserCard = ({user}:userCardProps) => {
                           href={links.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-gray-700 hover:text-rose-500 transition"
+                          className="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 transition"
                         >
                           <FaLinkedin className="w-5 h-5" />
                           <span className="text-sm font-medium">LinkedIn</span>
@@ -113,7 +113,7 @@ const UserCard = ({user}:userCardProps) => {
                           href={links.portfolio}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-gray-700 hover:text-rose-500 transition"
+                          className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 transition"
                         >
                           <FaGlobe className="w-5 h-5" />
                           <span className="text-sm font-medium">Portfolio</span>
@@ -127,10 +127,10 @@ const UserCard = ({user}:userCardProps) => {
         <div className="flex gap-4 m-4 p-2">
           <button 
           onClick={() => handleFeedAction("ignored",_id)}
-          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Ignore</button>
+          className="flex-1 bg-slate-700 hover:bg-slate-800 text-white font-medium py-3 px-6 rounded-lg transition-colors">Ignore</button>
             <button
            onClick={ () => handleFeedAction("interested",_id)}
-           className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
+           className="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">Interested</button>
         </div>
       </div>
     </div>

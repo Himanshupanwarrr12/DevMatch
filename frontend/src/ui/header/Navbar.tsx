@@ -35,19 +35,19 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="h-[60px] bg-pink-600 w-full mb-2 p-2 flex shadow-2xl justify-between items-center">
-      <NavLink to="/" className="text-xl text-white">
+    <div className="h-[60px] bg-slate-800 w-full mb-2 p-2 flex shadow-2xl justify-between items-center">
+      <NavLink to="/" className="text-xl text-white font-semibold">
         DevMatch
       </NavLink>
 
       {user && (
-        <div className="flex items-center gap-4 text-xl">
+        <div className="flex items-center gap-4 text-xl text-white">
           <h3>{user?.firstName} {user?.lastName}</h3>
 
           <div className="relative" ref={dropdownRef}>
             <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
               <img
-                className="h-8 w-8 rounded-full"
+                className="h-8 w-8 rounded-full ring-2 ring-slate-300"
                 src={user.photoUrl}
                 alt="User profile picture"
               />
@@ -57,26 +57,26 @@ const Navbar = () => {
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
                 <NavLink
                   to="/profile"
-                  className="w-full block text-left px-4 py-2 hover:bg-gray-100 text-gray-700"
+                  className="w-full block text-left px-4 py-2 hover:bg-slate-50 text-slate-700"
                 >
                   Profile
                 </NavLink>
                 <NavLink
                   to="/connections"
-                  className="w-full block text-left px-4 pb-4  hover:bg-gray-100 text-gray-700"
+                  className="w-full block text-left px-4 pb-4 hover:bg-slate-50 text-slate-700"
                 >
                   Connections
                 </NavLink>
                 <NavLink
                   to="/requests"
-                  className="w-full block text-left px-4 pb-4  hover:bg-gray-100 text-gray-700"
+                  className="w-full block text-left px-4 pb-4 hover:bg-slate-50 text-slate-700"
                 >
                   Requests
                 </NavLink>
-                <hr className="mt-2" />
+                <hr className="mt-2 border-slate-200" />
                 <button
                   onClick={handleLogout}
-                  className="w-full block text-left px-4 hover:bg-gray-100 active:bg-gray-200 active:scale-[0.98] active:transition-transform text-gray-700 border-t border-gray-200"
+                  className="w-full block text-left px-4 hover:bg-slate-50 active:bg-slate-100 active:scale-[0.98] active:transition-transform text-slate-700 border-t border-slate-200"
                 >
                   Logout
                 </button>

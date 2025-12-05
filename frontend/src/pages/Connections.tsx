@@ -46,7 +46,7 @@ const Connections = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-800 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading connections...</p>
         </div>
       </div>
@@ -58,13 +58,13 @@ const Connections = () => {
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="text-center max-w-md">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-red-700 mb-2">
+            <h2 className="text-xl font-semibold text-slate-700 mb-2">
               Error Loading Connections
             </h2>
-            <p className="text-red-600 mb-4">{error}</p>
+            <p className="text-slate-600 mb-4">{error}</p>
             <button
               onClick={fetchedConnections}
-              className="bg-rose-500 hover:bg-rose-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              className="bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 px-4 rounded-lg transition-colors"
             >
               Try Again
             </button>
@@ -77,7 +77,7 @@ const Connections = () => {
   if (!connections || connections.length === 0) {
     return (
       <div className="flex flex-col items-center mt-8 px-4 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-rose-500 mb-8">Connections</h1>
+        <h1 className="text-3xl font-bold text-slate-700 mb-8">Connections</h1>
         <div className="text-center py-12">
           <h2 className="text-xl font-semibold text-gray-700 mb-2">
             No Connections Yet
@@ -92,7 +92,7 @@ const Connections = () => {
 
   return (
     <div className="flex flex-col items-center mt-8 px-4 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-rose-500 mb-8">Connections</h1>
+      <h1 className="text-3xl font-bold text-slate-800 mb-8">Connections</h1>
 
       <div className="w-full space-y-8">
         {connections.map((connection) => (

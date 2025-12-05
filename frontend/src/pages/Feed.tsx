@@ -33,7 +33,7 @@ const Feed = () => {
   if (error) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen gap-4">
-        <p className="text-red-500 text-lg">{error}</p>
+        <p className="text-slate-700 text-lg">{error}</p>
         <button
           onClick={() => {
             setError(null);

@@ -91,12 +91,12 @@ const SignUp = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-50 to-rose-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-center text-rose-600">
+        <h2 className="text-3xl font-bold text-center text-slate-600">
           Sign Up
         </h2>
 
         {error && (
-          <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
+          <div className="p-3 text-sm text-grey-600 bg-red-50 rounded-md">
             {error}
           </div>
         )}
@@ -113,7 +113,7 @@ const SignUp = () => {
               onChange={handleChange}
               placeholder="Enter your first name"
               required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -128,7 +128,7 @@ const SignUp = () => {
               onChange={handleChange}
               placeholder="Enter your last name"
               required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -143,7 +143,7 @@ const SignUp = () => {
               onChange={handleChange}
               placeholder="Enter your email"
               required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -158,7 +158,7 @@ const SignUp = () => {
               onChange={handleChange}
               placeholder="Enter password"
               required
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -195,7 +195,7 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full px-4 py-2 font-semibold text-white bg-rose-600 rounded-md hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-2 font-semibold text-white bg-slate-800 rounded-md hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? "Signing up..." : "Sign Up"}
           </button>
@@ -203,7 +203,7 @@ const SignUp = () => {
 
         <p className="text-sm text-center text-gray-600">
           Already have an account?{" "}
-          <a href="/login" className="text-rose-600 hover:underline">
+          <a href="/login" className="text-slate-800 hover:underline">
             Login
           </a>
         </p>

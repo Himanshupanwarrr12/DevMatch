@@ -41,7 +41,7 @@ const ProfileCard = ({
           {firstName} {lastName}
         </h2>
         {gender && (
-          <p className="text-lg font-bold text-rose-500 mt-2">{gender}</p>
+          <p className="text-lg font-bold text-slate-800 mt-2">{gender}</p>
         )}
       </div>
 
@@ -54,7 +54,6 @@ const ProfileCard = ({
             <p className="text-gray-800 font-medium">{skills + " "}</p>
           </div>
         )}
-
         {about && (
           <div className="mb-3">
             <p className="text-xs font-semibold text-gray-500 uppercase">
@@ -65,7 +64,6 @@ const ProfileCard = ({
             </p>
           </div>
         )}
-
         {futureInterests && (
           <div className="mb-3">
             <p className="text-xs font-semibold text-gray-500 uppercase mb-1">
@@ -74,7 +72,6 @@ const ProfileCard = ({
             <p className="text-gray-900 font-medium">{futureInterests + " "}</p>
           </div>
         )}
-
         {/* Links Section */}
         {links && (links.github || links.linkedin || links.portfolio) && (
           <div className="mb-3">
@@ -87,7 +84,7 @@ const ProfileCard = ({
                   href={links.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-blue-800 hover:text-rose-500 transition"
+                  className="flex items-center gap-1.5 text-slate-800 hover:text-slate-900 transition"
                 >
                   <FaGithub className="w-5 h-5" />
                   <span className="text-sm font-medium">GitHub</span>
@@ -99,7 +96,7 @@ const ProfileCard = ({
                   href={links.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-gray-700 hover:text-rose-500 transition"
+                  className="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 transition"
                 >
                   <FaLinkedin className="w-5 h-5" />
                   <span className="text-sm font-medium">LinkedIn</span>
@@ -111,7 +108,7 @@ const ProfileCard = ({
                   href={links.portfolio}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-gray-700 hover:text-rose-500 transition"
+                  className="flex items-center gap-1.5 text-slate-700 hover:text-slate-800 transition"
                 >
                   <FaGlobe className="w-5 h-5" />
                   <span className="text-sm font-medium">Portfolio</span>
@@ -120,19 +117,18 @@ const ProfileCard = ({
             </div>
           </div>
         )}
-
         {/* This for show chat button and remove user button from connection page */}
         {showActions && (
           <div className="flex gap-3 mt-4 pt-4 border-t border-gray-200">
             <button
               onClick={onChat}
-              className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition"
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition shadow-sm hover:shadow-md"
             >
               Chat
             </button>
             <button
               onClick={onRemove}
-              className="flex-1 bg-red-600 hover:bg-red-500 text-white font-medium py-2.5 rounded-lg transition"
+              className="flex-1 bg-rose-500 hover:bg-rose-700 text-white font-medium py-2.5 rounded-lg transition shadow-sm hover:shadow-md"
             >
               Remove
             </button>

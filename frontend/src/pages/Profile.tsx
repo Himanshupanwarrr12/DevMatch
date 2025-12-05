@@ -9,7 +9,7 @@ const Profile = () => {
 
   if (!user)
     return (
-      <div className="text-center p-20 font-bold text-red-600 text-3xl">
+      <div className="text-center p-20 font-bold text-slate-800 text-3xl">
         Loading Profile...
       </div>
     );

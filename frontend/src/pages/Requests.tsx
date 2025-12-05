@@ -44,12 +44,12 @@ const Requests = () => {
   if (!requests) return null;
   if (requests.length === 0)
     return (
-      <p className="text-red-600 text-2xl text-center">No requests found</p>
+      <p className="text-slate-600 text-2xl text-center">No requests found</p>
     );
 
   return (
     <div className="flex flex-col gap-5  py-4">
-      <h1 className="text-rose-700 text-3xl text-center font-bold">Requests</h1>
+      <h1 className="text-slate-700 text-3xl text-center font-bold">Requests</h1>
 
       {error && (
         <div className="max-w-md mx-auto w-full p-4 bg-red-900/20 border border-red-600 rounded-lg">
