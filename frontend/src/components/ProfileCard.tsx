@@ -84,7 +84,7 @@ const ProfileCard = ({
                   href={links.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-slate-800 hover:text-slate-900 transition"
+                  className="flex items-center gap-1.5 text-slate-800 hover:text-slate-950 transition"
                 >
                   <FaGithub className="w-5 h-5" />
                   <span className="text-sm font-medium">GitHub</span>
@@ -108,7 +108,7 @@ const ProfileCard = ({
                   href={links.portfolio}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-slate-700 hover:text-slate-800 transition"
+                  className="flex items-center gap-1.5 text-slate-800 hover:text-slate-950 transition"
                 >
                   <FaGlobe className="w-5 h-5" />
                   <span className="text-sm font-medium">Portfolio</span>
