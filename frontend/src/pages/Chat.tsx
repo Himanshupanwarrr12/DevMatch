@@ -1,10 +1,40 @@
-  const Chat =() => {
+import createsocketConnection from "@/utils/socket";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import type { RootState } from "@/store/store";
+import type { User } from "@/features/user/userSlice";
+
+const Chat = () => {
+
+  const {toUserId} =useParams()
+  const user = useSelector((store:RootState)=> store.user) as User | null;
+  const firstName = user?.firstName
+  const userId = user?._id
+
+  useEffect(() => {
+    if(!userId) return
+    const socket = createsocketConnection();
+
+    socket?.emit("joinChat",{
+      firstName,
+      toUserId,
+      userId
+    })
+
+
+    return ()=>{
+      socket?.disconnect()
+    }
+    
+  }, [userId,firstName,toUserId]);
+
   return (
-    <div className="flex flex-col h-screen bg-gray-100 p-4">
+    <div className="flex flex-col h-screen bg-white p-4">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto bg-white rounded-2xl p-4 shadow">
+      <div className="flex-1 overflow-y-auto bg-gray-300 rounded-2xl p-4 shadow">
         <div className="mb-3 text-left">
-          <div className="inline-block bg-gray-200 text-gray-800 p-2 rounded-2xl max-w-xs">
+          <div className="inline-block bg-white text-gray-800 p-2 rounded-2xl max-w-xs">
             Hello! How can I help you?
           </div>
         </div>
@@ -29,6 +59,6 @@
       </div>
     </div>
   );
-}
+};
 
-export default Chat
+export default Chat;
