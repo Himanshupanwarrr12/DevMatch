@@ -1,12 +1,11 @@
-import io from "socket.io-client"
-
+import {io,Socket} from "socket.io-client"
 import { baseUrl } from "./constant"
 
-
-const createsocketConnection = ()=>{
-    if(location.hostname ==="localhost"){
+const createsocketConnection = ():Socket | null =>{
+    if(window.location.hostname ==="localhost"){
         return io(baseUrl)
     }
+    return null
 }
 
 
