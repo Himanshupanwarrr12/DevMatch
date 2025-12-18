@@ -7,10 +7,12 @@ const intializeSocket = (server:HTTPServer) => {
     cors:{origin:"http://localhost:5173"}
 })
 
-io.on("connections",(socket)=>{
+io.on("connection",(socket)=>{
 
-    socket.on("joinChat",()=>{
-
+    socket.on("joinChat",({firstName,toUserId,userId})=>{
+        const roomId:string = [userId,toUserId].sort().join("_");
+        console.log(`${firstName} joined on room ${roomId}`)
+        socket.join(roomId)
     })
 
     socket.on("sendMessage",()=>{
