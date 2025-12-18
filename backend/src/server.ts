@@ -1,7 +1,6 @@
 import express from "express";
 const app = express();
 import cookieParser from "cookie-parser";
-const port = 7777;
 import cors from "cors";
 import dbConnection from "./config/database";
 import dotenv from "dotenv";
@@ -35,9 +34,11 @@ const httpServer = http.createServer(app)
 
 intializeSocket(httpServer)
 
+const port = process.env.PORT
+
 dbConnection()
   .then(() => {
-    httpServer.listen(process.env.PORT, () => {
+    httpServer.listen(port, () => {
       console.log(`server is running at ${port}`);
     });
   })
