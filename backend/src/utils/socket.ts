@@ -2,6 +2,10 @@ import { Server } from "socket.io";
 import type { Server as HTTPServer } from "http";
 import crypto from "crypto"
 
+const secretRoomId = (userId,toUserId)=>{
+  return crypto
+}
+
 const intializeSocket = (server: HTTPServer) => {
   const io = new Server(server, {
     cors: { origin: "http://localhost:5173" },
