@@ -18,7 +18,8 @@ const Chat = () => {
 
   function sendMessage (){
     const socket = createsocketConnection();
-
+    if(!newMessage.trim()) return
+    
     setMessages([...messages,newMessage])
 
     socket?.emit("sendMessage",{
@@ -43,6 +44,7 @@ const Chat = () => {
 
     socket?.on("messageRecieved",({firstName,lastName,text})=>{
       console.log(`${firstName} ${lastName} says ${text}`)
+      setMessages([...messages,text ])
     } )
 
 
