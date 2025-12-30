@@ -27,10 +27,10 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addUser: (state, action: PayloadAction<User>) => {
+    addUser: (_, action: PayloadAction<User>) => {
       return action.payload;
     },
-    removeUser: (state, action) => {
+    removeUser: () => {
       return null;
     },
   },
