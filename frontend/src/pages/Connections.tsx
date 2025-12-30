@@ -1,4 +1,7 @@
-import { setConnections } from "@/features/connection/connectionSlice";
+import {
+  removeConnection,
+  setConnections,
+} from "@/features/connection/connectionSlice";
 import axiosInstance from "@/utils/axios.config";
 import type { RootState } from "../store/store";
 import { useEffect, useState } from "react";
@@ -32,10 +35,14 @@ const Connections = () => {
     }
   };
 
-  function handleChat(userId:string){
+  function handleChat(userId: string) {
     navigate(`/chat/${userId}`);
   }
-  
+
+  function handleRemoveConnection(userId: string) {
+    dispatch(removeConnection(userId));
+  }
+
   useEffect(() => {
     fetchedConnections();
   }, []);
@@ -101,7 +108,7 @@ const Connections = () => {
             user={connection}
             showActions={true}
             onChat={() => handleChat(connection._id)}
-            onRemove={()=>handleRemoveConnection(connection._id)}
+            onRemove={() => handleRemoveConnection(connection._id)}
           />
         ))}
       </div>
