@@ -14,7 +14,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     axiosInstance.post("/logout");
-    dispatch(removeUser(user));
+    dispatch(removeUser());
     navigate("/login");
   };
   const dropdownRef = useRef<HTMLDivElement>(null);
