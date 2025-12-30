@@ -1,22 +1,19 @@
-import mongoose, { model, Schema, Document, Types } from "mongoose"
+import  { model, Schema, Document, Types } from "mongoose"
 
 interface IMessage {
     senderId: Types.ObjectId;
     text: string;
-}
-
-interface IMessageDocument extends IMessage, Document {
-    _id: Types.ObjectId;
+    timeStamps?:Date;
 }
 
 interface IChat extends Document {
     participants: Types.ObjectId[];
-    messages: IMessageDocument[];
+    messages: IMessage[];
 }
 
 const messageSchema = new Schema<IMessage>({
     senderId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
@@ -24,12 +21,13 @@ const messageSchema = new Schema<IMessage>({
         type: String,
         required: true,
     },
+    timeStamps:{type:Date,default:Date.now }
 })
 
 const chatSchema = new Schema<IChat>({
     participants: [
         { 
-            type: mongoose.Schema.Types.ObjectId, 
+            type: Schema.Types.ObjectId, 
             ref: "User", 
             required: true 
         },
@@ -37,4 +35,4 @@ const chatSchema = new Schema<IChat>({
     messages: [messageSchema],
 })
 
-export default model<IChat>("chat", chatSchema)
+export default model<IChat>("Chat", chatSchema)
