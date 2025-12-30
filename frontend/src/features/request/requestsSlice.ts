@@ -12,7 +12,7 @@ const requestsSlice = createSlice({
     name:"requests",
     initialState,
     reducers:{
-        setRequests:(state,action) => {
+        setRequests:(_,action) => {
             return action.payload
         },
         removeRequestFromFeed: (state,action) => {
