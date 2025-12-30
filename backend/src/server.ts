@@ -24,11 +24,13 @@ import userRouter from "./routes/user";
 import profileRouter from "./routes/profile";
 import requestRouter from "./routes/request";
 import intializeSocket from "./utils/socket";
+import chatRouter from "./routes/chat";
 
 app.use("/", authRouter);
 app.use("/", userRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/",chatRouter);
 
 const httpServer = http.createServer(app)
 
