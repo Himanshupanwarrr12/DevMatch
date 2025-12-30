@@ -7,13 +7,10 @@ const connectionSlice = createSlice({
   name: "connections",
   initialState,
   reducers: {
-    setConnections: (state, action: PayloadAction<User[]>) => {
-      return action.payload;
-    },
-    removeConnections: () => null,
+    setConnections: (_, action: PayloadAction<User[]>) => action.payload,
   },
 });
 
-export const { setConnections, removeConnections } = connectionSlice.actions;
+export const { setConnections } = connectionSlice.actions;
 
 export default connectionSlice.reducer;
