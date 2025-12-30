@@ -13,14 +13,18 @@ const Chat = () => {
   const lastName = user?.lastName
   const userId = user?._id
 
-  const [messages,setMessages] = useState<string[]>([])
+  type Messages = {
+    text:string;
+    senderId:string;
+  }
+
+  const [messages,setMessages] = useState<Messages[]>([])
   const [newMessage,setNewMessage] = useState("")
 
   function sendMessage (){
     const socket = createsocketConnection();
     if(!newMessage.trim()) return
-    
-    setMessages([...messages,newMessage])
+    if(!userId) return
 
     socket?.emit("sendMessage",{
       firstName:firstName,
@@ -38,13 +42,20 @@ const Chat = () => {
 
     socket?.emit("joinChat",{
       firstName,
+      lastName,
       toUserId,
       userId
     })
 
-    socket?.on("messageRecieved",({firstName,lastName,text})=>{
+    socket?.on("messageRecieved",(data)=>{
+      const {firstName,lastName,text,senderId} = data
       console.log(`${firstName} ${lastName} says ${text}`)
-      setMessages([...messages,text ])
+      setMessages((prevMessages)=> [...prevMessages,{
+        text,
+        senderId:senderId || userId,
+        firstName,
+        lastName,
+      } ])
     } )
 
 
@@ -52,23 +63,33 @@ const Chat = () => {
       socket?.disconnect()
     }
     
-  }, [userId,toUserId,firstName]);
+  }, [userId,toUserId,firstName,lastName]);
 
   return (
     <div className="flex flex-col h-screen bg-white p-4">
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto bg-gray-300 rounded-2xl p-4 shadow">
-        <div className="mb-3 text-left">
-          <div className="inline-block bg-white text-gray-800 p-2 rounded-2xl max-w-xs">
-            {messages}
+       {
+        messages.map((msg,index)=>{
+          const isSender = msg.senderId === userId
+            return (
+        <div
+          key={index}
+          className={`mb-3 flex ${isSender ? "justify-end" : "justify-start"}`}
+        >
+          <div
+            className={`p-2 rounded-2xl max-w-xs ${
+              isSender
+                ? "bg-blue-500 text-white rounded-br-none"
+                : "bg-white text-gray-800 rounded-bl-none"
+            }`}
+          >
+            {msg.text}
           </div>
         </div>
-
-        <div className="mb-3 text-right">
-          <div className="inline-block bg-blue-500 text-white p-2 rounded-2xl max-w-xs">
-            Hi! I need help.
-          </div>
-        </div>
+      );
+        })
+       }
       </div>
 
       {/* Input Box */}
