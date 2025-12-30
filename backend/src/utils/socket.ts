@@ -18,7 +18,7 @@ const intializeSocket = (server: HTTPServer) => {
   io.on("connection", (socket) => {
     socket.on("joinChat", ({ firstName, lastName, toUserId, userId }) => {
       const roomId: string = secretRoomId(userId, toUserId);
-      console.log(`${firstName} ${lastName} joined on room ${roomId}`);
+      // console.log(`${firstName} ${lastName} joined on room ${roomId}`);
       socket.join(roomId);
     });
 
@@ -55,14 +55,13 @@ const intializeSocket = (server: HTTPServer) => {
 
           await existingChat.save();
         } catch (error) {
-          console.error("Error sending message:", error);
+          // console.error("Error sending message:", error);
           socket.emit("messageError", { error: "Failed to send message" });
         }
       }
     );
 
     socket.on("disconnect", () => {
-      console.log("User disconnected");
     });
   });
 };
