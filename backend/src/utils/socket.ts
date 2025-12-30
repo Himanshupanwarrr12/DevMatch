@@ -2,7 +2,6 @@ import { Server } from "socket.io";
 import type { Server as HTTPServer } from "http";
 import crypto from "crypto";
 import chat from "../models/chat";
-import { Types } from "mongoose";
 
 const secretRoomId = (userId: string, toUserId: string) => {
   return crypto
@@ -17,9 +16,9 @@ const intializeSocket = (server: HTTPServer) => {
   });
 
   io.on("connection", (socket) => {
-    socket.on("joinChat", ({ firstName, toUserId, userId }) => {
+    socket.on("joinChat", ({ firstName, lastName, toUserId, userId }) => {
       const roomId: string = secretRoomId(userId, toUserId);
-      console.log(`${firstName} joined on room ${roomId}`);
+      console.log(`${firstName} ${lastName} joined on room ${roomId}`);
       socket.join(roomId);
     });
 
@@ -28,9 +27,14 @@ const intializeSocket = (server: HTTPServer) => {
 
       async ({ firstName, lastName, userId, toUserId, text }) => {
         try {
-          const rooomId: string = [userId, toUserId].sort().join("_");
+          const roomId: string = secretRoomId(userId, toUserId);
 
-          io.to(rooomId).emit("messageRecieved", { firstName, lastName, text,senderId:userId});
+          io.to(roomId).emit("messageRecieved", {
+            firstName,
+            lastName,
+            text,
+            senderId: userId,
+          });
 
           let existingChat = await chat.findOne({
             participants: { $all: [userId, toUserId] },
@@ -46,7 +50,7 @@ const intializeSocket = (server: HTTPServer) => {
           existingChat.messages.push({
             senderId: toUserId,
             text: text,
-            timeStamps: new Date(),
+            createdAt: new Date(),
           });
 
           await existingChat.save();
