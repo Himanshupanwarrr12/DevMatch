@@ -5,14 +5,14 @@ import type { Request, Response } from "express";
 import User, { type IUser } from "../models/User";
 import UserconnectionModel from "../models/UserConnection";
 
-interface sendConnectionRequest extends Request {
+interface AuthenticatedRequest extends Request {
   user?: IUser;
 }
 
 requestRouter.post(
   "/request/send/:status/:id",
   userAuth,
-  async (req: sendConnectionRequest, res: Response) => {
+  async (req: AuthenticatedRequest, res: Response) => {
     try {
       // taking main ingredients
       const fromUserId = req.user!.id;
@@ -31,7 +31,7 @@ requestRouter.post(
         return res.status(400).json({ message: "User not found" });
       }
 
-       // user can't send request to himself
+      // user can't send request to himself
       if (fromUserId === toUserId) {
         return res.status(400).send("You cannot send request to yourself");
       }
@@ -49,7 +49,6 @@ requestRouter.post(
           .status(400)
           .json({ message: "Connection request already exists " });
       }
-
 
       const connectionReq = new UserconnectionModel({
         fromUserId,
@@ -70,8 +69,9 @@ requestRouter.post(
 requestRouter.post(
   "/request/review/:status/:connectionId",
   userAuth,
-  async (req: sendConnectionRequest, res: Response) => {
-    //take loggedInUser detail
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      //take loggedInUser detail
     const loggedInuser = req.user;
     const { status, connectionId } = req.params;
 
@@ -91,7 +91,6 @@ requestRouter.post(
       status: "interested",
     });
 
-
     // if connection not found
     if (!connectionRequest) {
       return res.status(400).json({
@@ -108,7 +107,48 @@ requestRouter.post(
     res
       .status(200)
       .json({ message: "Connection request has been processed.", data });
+    } catch (error) {
+      res.status(400).send("Error : "+ error)
+    }
+    
   }
+);
+
+requestRouter.delete(
+  "/request/connection/:userId",
+  userAuth,
+  async (req: AuthenticatedRequest, res: Response) => {
+
+    try{ 
+    const loggedInUserId = req?.user!._id
+    const targetUserId = req.params.userId;
+
+      const targetUser = await User.findById(targetUserId);
+      if (!targetUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const deletedConnection = await UserconnectionModel.findOneAndDelete({
+        $or: [
+          { fromUserId: loggedInUserId, toUserId: targetUserId, status: "accepted" },
+          { fromUserId: targetUserId, toUserId: loggedInUserId, status: "accepted" },
+        ],
+      });
+
+      if (!deletedConnection) {
+        return res.status(404).json({ 
+          message: "No active connection found with this user" 
+        });
+      }
+      
+        res.status(200).json({ 
+        message: "Connection removed successfully",
+      });
+  } 
+  catch(error){
+      res.status(500).json({ error: "Error: " + error });
+  }
+}
 );
 
 export default requestRouter;
