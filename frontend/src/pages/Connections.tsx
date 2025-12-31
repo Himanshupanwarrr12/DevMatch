@@ -39,8 +39,13 @@ const Connections = () => {
     navigate(`/chat/${userId}`);
   }
 
-  function handleRemoveConnection(userId: string) {
-    dispatch(removeConnection(userId));
+  async function handleRemoveConnection(userId: string) {
+    try {
+      dispatch(removeConnection(userId));
+      await axiosInstance.delete(`/request/connection/${userId}`);
+    } catch (error) {
+      console.log("Error on removing connection : ", error);
+    }
   }
 
   useEffect(() => {
