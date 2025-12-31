@@ -117,7 +117,7 @@ const ProfileCard = ({
             </div>
           </div>
         )}
-        {/* This for show chat button and remove user button from connection page */}
+        {/* This is  for show chat button and remove user button from connection page */}
         {showActions && (
           <div className="flex gap-3 mt-4 pt-4 border-t border-gray-200">
             <button
