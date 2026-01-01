@@ -10,7 +10,7 @@
     "module": "esnext",
     "target": "es2020",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "types": ["node"],
 
     // For nodejs:
@@ -40,7 +40,7 @@
     "resolveJsonModule": true,
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
