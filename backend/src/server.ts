@@ -18,6 +18,23 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.json({ 
+    message: "Backend is working!",
+    status: "online",
+    time: new Date().toISOString()
+  });
+});
+
+// Simple health check
+app.get("/api/health", (req, res) => {
+  res.json({ 
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime() // How long server has been running
+  });
+});
+
 // api routes
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
