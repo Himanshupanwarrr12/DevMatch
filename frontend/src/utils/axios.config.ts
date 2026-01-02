@@ -7,7 +7,7 @@ console.log("📡 Using backend URL:", serverUrl);
 
 const axiosInstance = axios.create({
   baseURL: serverUrl,
-  timeout: 60000,
+  timeout: 10000,
   withCredentials: true,
 });
 
