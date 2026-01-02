@@ -1,9 +1,10 @@
 import axios from "axios";
 import { baseUrl } from "./constant";
 
-const serverUrl = baseUrl;
+const serverUrl = baseUrl
 
-//basic axios instance
+console.log("📡 Using backend URL:", serverUrl);
+
 const axiosInstance = axios.create({
   baseURL: serverUrl,
   timeout: 10000,
@@ -12,69 +13,46 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
+    console.log(`➡️ ${config.method} to: ${config.url}`);
     return config;
   },
-  (error : unknown) => {
-     if (error instanceof Error) {
-      console.log("Request error:", error.message);
-    }
+  (error) => {
+    console.log("Request error:", error);
     return Promise.reject(error);
   }
 );
 
+// Simple Response Interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error: unknown) => {
-    console.log("Error caught in Interceptor : ", error);
-
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          // Server responded with error status
-          console.log("Server Error:", error.response.data);
-          console.log("Status:", error.response.status);
-
-          // You can handle specific status codes here
-          if (error.response.status === 401) {
-            // Redirect to login
-            window.location.href = "/login";
-          }
-
-          // Throw a custom error message
-          const errorMessage =
-            error.response.data?.message ||
-            `Server error: ${error.response.status}`;
-          return Promise.reject(new Error(errorMessage));
-        } else if (error.request) {
-          // Request was made but no response
-          console.log("Network Error:", error.message);
-          return Promise.reject(
-            new Error("Network error. Please check your connection.")
-          );
-        }
-        
-        else {
-          // Something else happened
-          console.log("Error:", error.message);
-          return Promise.reject(new Error("An error occurred"));
-        }
-      }
-
-          // if it's standard error
-        else if( error instanceof Error){
-          console.log("Standard Error:", error.message);
-      return Promise.reject(error);
-        }
-        
-      
-       else {
-        // Non-axios error
-        console.log("Unknown Error:", error);
-        return Promise.reject(new Error("An unexpected error occurred"));
-      }
+  (error) => {
+    console.log("❌ API Error:", error.message);
     
+    // Network Error (no response from server)
+    if (!error.response) {
+      console.log("⚠️ Network Error - Server might be down");
+      console.log("Check if backend is running on Render");
+      
+      return Promise.reject(
+        new Error("Cannot connect to server. Please try again later.")
+      );
+    }
+    
+    // Server responded with error
+    console.log("Status Code:", error.response.status);
+    
+    // Handle 401 - Unauthorized
+    if (error.response.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    
+    // Get error message
+    const errorMessage = error.response.data?.message || "Something went wrong";
+    return Promise.reject(new Error(errorMessage));
   }
 );
 
-export default axiosInstance
+export default axiosInstance;
