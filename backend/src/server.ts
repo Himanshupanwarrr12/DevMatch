@@ -13,7 +13,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://devmatch-six.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -31,11 +31,10 @@ app.get("/api/health", (req, res) => {
   res.json({ 
     status: "healthy",
     timestamp: new Date().toISOString(),
-    uptime: process.uptime() // How long server has been running
+    uptime: process.uptime() 
   });
 });
 
-// api routes
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import profileRouter from "./routes/profile";
